@@ -16,13 +16,34 @@ function entanglement_negativity(state::MixedDestabilizer,
 
     T = stab_to_gf2(stabilizerview(state))'
 
-    e_A = rank(T'*(P_A)*S*(P_A)*T)/2
-    e_B = rank(T'*(P_B)*S*(P_B)*T)/2
-    e_C = rank(T'*(P_C)*S*(P_C)*T)/2
-    e_AB = rank(T'*(P_A+P_B)*S*(P_A+P_B)*T)/2
-    e_AC = rank(T'*(P_A+P_C)*S*(P_A+P_C)*T)/2
-    e_BC = rank(T'*(P_B+P_C)*S*(P_B+P_C)*T)/2
-    e_ABC = rank(T'*(P_A+P_B+P_C)*S*(P_A+P_B+P_C)*T)/2
+    K = T'*(P_A)*S*(P_A)*T
+    K = K.%2
+    K = K.!=0
+    e_A = rank(K)/2
+    K = T'*(P_B)*S*(P_B)*T
+    K = K.%2
+    K = K.!=0
+    e_B = rank(K)/2
+    K = T'*(P_C)*S*(P_C)*T
+    K = K.%2
+    K = K.!=0
+    e_C = rank(K)/2
+    K = T'*(P_A+P_B)*S*(P_A+P_B)*T
+    K = K.%2
+    K = K.!=0
+    e_AB = rank(K)/2
+    K = T'*(P_A+P_C)*S*(P_A+P_C)*T
+    K = K.%2
+    K = K.!=0
+    e_AC = rank(K)/2
+    K = T'*(P_B+P_C)*S*(P_B+P_C)*T
+    K = K.%2
+    K = K.!=0
+    e_BC = rank(K)/2
+    K = T'*(P_A+P_B+P_C)*S*(P_A+P_B+P_C)*T
+    K = K.%2
+    K = K.!=0
+    e_ABC = rank(K)/2
 
     e_topo = -e_A-e_B-e_C+e_AB+e_AC+e_BC-e_ABC
     return -e_topo
