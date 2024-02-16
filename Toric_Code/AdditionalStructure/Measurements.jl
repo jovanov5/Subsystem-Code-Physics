@@ -46,7 +46,7 @@ function entanglement_negativity(state::MixedDestabilizer,
     e_ABC = rank(K)/2
 
     e_topo = -e_A-e_B-e_C+e_AB+e_AC+e_BC-e_ABC
-    return -e_topo
+    return e_topo
 end
 
 function entanglement_entropy_topo(state::MixedDestabilizer,
@@ -94,5 +94,5 @@ function entanglement_entropy_topo(state::MixedDestabilizer,
 
     e_topo = -e_A-e_B-e_C+e_AB+e_AC+e_BC-e_ABC
     # print(e_topo)
-    return -e_topo
+    return e_topo
 end

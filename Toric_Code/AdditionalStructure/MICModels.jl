@@ -53,6 +53,24 @@ function toric_code(system::EdgeSquareLattice, stab_type_dist::DiscreteNonParame
     end
 end
 
+function toric_code_GS(system::EdgeSquareLattice, Z_logical_1::Bool, Z_logical_2::Bool)
+    """this return one of the four coputational logic states.
+    At the moment it is only working for (0,0)"""
+
+        nbits = system.nbits
+        state = Stabilizer(zeros(UInt8, nbits), zeros(Bool, nbits, nbits), Matrix(LinearAlgebra.I, nbits, nbits));
+        state = MixedDestabilizer(state)
+        L = system.L
+
+        for cell_index = 0:L*L-1
+            state, anticom_index, result = project!(state, tc_stab(Star, cell_index, system)) 
+            # See how to force the projection result!
+        end
+
+        return state
+    end
+    
+
 function kitaev_code(system::VertexHoneyLattice, stab_type_dist::DiscreteNonParametric)
     """this defines the kitaev model. For any other (qubit) model changing this function should in principle suffice."""
 
@@ -106,33 +124,28 @@ end
 
 # Helper functions for the Model definitions!
 
-function tc_stab(t::StabTypeTC, i::Integer, system::EdgeSquareLattice)
+function edge_picker(cell_index::Integer, edge_index::Integer)
+    # returns the array index (from 1) of the edge DoF! Cell and Edge Indices are from 0!
+    return 2*cell_index + edge_index + 1
+end
+
+function tc_stab(t::StabTypeTC, cell_index::Integer, system::EdgeSquareLattice)
     """returns a four-body-pauli stabilier of the TC, acting on a site i
         Note the indexing descepancy, i is a site index (counting from 0)!"""
     
-    n = system.nbits
+    nbits = system.nbits
     L = system.L
     if t == Star::StabTypeTC
-        if i == 0 # The Periodic Boundary Condition
-            bits = bit_string_ijkl(1, 2, 2*L*L, 2*L*L-1, 2*L*L)
-        elseif i < L
-            bits = bit_string_ijkl(2*i+1, 2*i+2, 2*(i+L*(L-1))+1, 2*(i-1)+2, 2*L*L)
-        elseif mod(i, L) == 0
-            bits = bit_string_ijkl(2*i+1, 2*i+2, 2*(i-L)+1, 2*(i+L-1)+2, 2*L*L)
-        else
-            bits = bit_string_ijkl(2*i+1, 2*i+2, 2*(i-L)+1, 2*(i-1)+2, 2*L*L)
-        end
-        return PauliOperator(0x0, bits, zeros(Bool, n));
+        adj_cell_left = mod(cell_index, L) + mod(div(cell_index, L)-1, L) * L
+        adj_cell_down = mod(cell_index-1, L) + div(cell_index, L) * L
+        bits = bit_string_ijkl(edge_picker(cell_index, 0), edge_picker(cell_index, 1), 
+                        edge_picker(adj_cell_down, 1), edge_picker(adj_cell_left, 0), nbits)
+        return PauliOperator(0x0, bits, zeros(Bool, nbits));
     elseif t == Plaquette::StabTypeTC
-        if i == L*L-1
-            bits = bit_string_ijkl(2*L*L-1, 2*(L-1)+2, 2*L*(L-1)+1, 2*L*L, 2*L*L)
-        elseif i >= L*(L-1)
-            bits = bit_string_ijkl(2*i+1, 2*mod(i, L)+2, 2*(i+1)+1, 2*i+2, 2*L*L)
-        elseif mod(i, L) == L-1
-            bits = bit_string_ijkl(2*i+1, 2*(i+L)+2, 2*(i-L+1)+1, 2*i+2, 2*L*L)
-        else
-            bits = bit_string_ijkl(2*i+1, 2*(i+L)+2, 2*(i+1)+1, 2*i+2, 2*L*L)
-        end
+        adj_cell_right = mod(cell_index, L) + mod(div(cell_index, L)+1, L) * L
+        adj_cell_up = mod(cell_index+1, L) + div(cell_index, L) * L
+        bits = bit_string_ijkl(edge_picker(cell_index, 0), edge_picker(cell_index, 1), 
+                        edge_picker(adj_cell_up, 0), edge_picker(adj_cell_right, 1), nbits)
         return PauliOperator(0x0, zeros(Bool, n), bits);
     end
 end
