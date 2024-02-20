@@ -60,8 +60,7 @@ function toric_code_GS(system::EdgeSquareLattice, Z_logical_1::Bool, Z_logical_2
     At the moment it is only working for (0,0)"""
 
     nbits = system.nbits
-    state = Stabilizer(zeros(UInt8, nbits), zeros(Bool, nbits, nbits), Matrix(LinearAlgebra.I, nbits, nbits));
-    state = MixedDestabilizer(state)
+    state = z_polarised_state(system)
     L = system.L
 
     for cell_index = 0:L*L-1
@@ -82,8 +81,7 @@ function toric_code_GS_MIXED(system::EdgeSquareLattice)
     """this return fully mixed state in the GS manifold."""
 
     nbits = system.nbits
-    state = Stabilizer(zeros(UInt8, 1), zeros(Bool, 1, nbits), zeros(Bool, 1, nbits));
-    state = MixedDestabilizer(state)
+    state = maximally_mixed_state(system)
     L = system.L
 
     for cell_index = 0:L*L-1
@@ -96,18 +94,6 @@ function toric_code_GS_MIXED(system::EdgeSquareLattice)
         # See how to force the projection result!
     end
 
-    return state
-end
-
-function maximally_mixed_state(system)
-    """this returns the maximally mixed state for the given system."""
-    # initial state is the maximally mixed state
-    # since the package does not let you create an empty tableau, I defined the identity as the stabilizer, which is the same statement
-    nbits = system.nbits
-    state = Stabilizer(zeros(UInt8, 1), # Phases
-        zeros(Bool, 1, nbits), # X Tableau (as matrix of Bools)
-        zeros(Bool, 1, nbits)); # Z Tableau
-    state = MixedDestabilizer(state)
     return state
 end
 

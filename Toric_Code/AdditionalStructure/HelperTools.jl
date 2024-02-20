@@ -71,4 +71,16 @@ function y_polarised_state(system)
     return state
 end
 
+function maximally_mixed_state(system)
+    """this returns the maximally mixed state for the given system."""
+    # initial state is the maximally mixed state
+    # since the package does not let you create an empty tableau, I defined the identity as the stabilizer, which is the same statement
+    nbits = system.nbits
+    state = Stabilizer(zeros(UInt8, 1), # Phases
+        zeros(Bool, 1, nbits), # X Tableau (as matrix of Bools)
+        zeros(Bool, 1, nbits)); # Z Tableau
+    state = MixedDestabilizer(state)
+    return state
+end
+
 # end
