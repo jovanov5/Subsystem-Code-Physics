@@ -12,18 +12,20 @@ end
 @enum StabTypeTC begin
     Star = 1
     Plaquette = 2
-    e_hor = 3
-    e_ver = 4
-    m_hor = 5
-    m_ver = 6
-    f_hor = 7
-    f_ver = 8
+    Electric = 3
+    Magnetic = 4
+    Fermionic = 5
 end
 
 @enum StabTypeHC begin
     XX = 1
     YY = 2
     ZZ = 3
+end
+
+@enum Orientation begin
+    Vertical = 1
+    Horizontal = 2
 end
 
 #
@@ -57,19 +59,57 @@ function toric_code_GS(system::EdgeSquareLattice, Z_logical_1::Bool, Z_logical_2
     """this return one of the four coputational logic states.
     At the moment it is only working for (0,0)"""
 
-        nbits = system.nbits
-        state = Stabilizer(zeros(UInt8, nbits), zeros(Bool, nbits, nbits), Matrix(LinearAlgebra.I, nbits, nbits));
-        state = MixedDestabilizer(state)
-        L = system.L
+    nbits = system.nbits
+    state = Stabilizer(zeros(UInt8, nbits), zeros(Bool, nbits, nbits), Matrix(LinearAlgebra.I, nbits, nbits));
+    state = MixedDestabilizer(state)
+    L = system.L
 
-        for cell_index = 0:L*L-1
-            state, anticom_index, result = project!(state, tc_stab(Star, cell_index, system)) 
-            # See how to force the projection result!
-        end
-
-        return state
+    for cell_index = 0:L*L-1
+        state, anticom_index, result = project!(state, tc_stab(Star, cell_index, system))
+        # See how to force the projection result!
     end
-    
+
+    for cell_index = 0:L*L-1
+        state, anticom_index, result = project!(state, tc_stab(Plaquette, cell_index, system)) 
+        # See how to force the projection result!
+    end
+
+
+    return state
+end
+
+function toric_code_GS_MIXED(system::EdgeSquareLattice)
+    """this return fully mixed state in the GS manifold."""
+
+    nbits = system.nbits
+    state = Stabilizer(zeros(UInt8, 1), zeros(Bool, 1, nbits), zeros(Bool, 1, nbits));
+    state = MixedDestabilizer(state)
+    L = system.L
+
+    for cell_index = 0:L*L-1
+        state, anticom_index, result = project!(state, tc_stab(Star, cell_index, system)) 
+        # See how to force the projection result!
+    end
+
+    for cell_index = 0:L*L-1
+        state, anticom_index, result = project!(state, tc_stab(Plaquette, cell_index, system)) 
+        # See how to force the projection result!
+    end
+
+    return state
+end
+
+function maximally_mixed_state(system)
+    """this returns the maximally mixed state for the given system."""
+    # initial state is the maximally mixed state
+    # since the package does not let you create an empty tableau, I defined the identity as the stabilizer, which is the same statement
+    nbits = system.nbits
+    state = Stabilizer(zeros(UInt8, 1), # Phases
+        zeros(Bool, 1, nbits), # X Tableau (as matrix of Bools)
+        zeros(Bool, 1, nbits)); # Z Tableau
+    state = MixedDestabilizer(state)
+    return state
+end
 
 function kitaev_code(system::VertexHoneyLattice, stab_type_dist::DiscreteNonParametric)
     """this defines the kitaev model. For any other (qubit) model changing this function should in principle suffice."""
@@ -146,56 +186,45 @@ function tc_stab(t::StabTypeTC, cell_index::Integer, system::EdgeSquareLattice)
         adj_cell_up = mod(cell_index+1, L) + div(cell_index, L) * L
         bits = bit_string_ijkl(edge_picker(cell_index, 0), edge_picker(cell_index, 1), 
                         edge_picker(adj_cell_up, 0), edge_picker(adj_cell_right, 1), nbits)
-        return PauliOperator(0x0, zeros(Bool, n), bits);
+        return PauliOperator(0x0, zeros(Bool, nbits), bits);
     end
 end
 
-function ribs_stab(t::StabTypeTC, i::Integer, system::EdgeSquareLattice)
+function ribs_stab(t::StabTypeTC, cell_index::Integer, system::EdgeSquareLattice)
     """returns a one-to-two-body-pauli short ribbon operator, acting on a site i
         Note the indexing descepancy, i is a site index (counting from 0)!"""
     
-    n = system.nbits
+    nbits = system.nbits
     L = system.L
-    if t == e_hor::StabTypeTC
-        if i < L
-            bits = bit_string_i(2*(i+L*(L-1))+1, 2*L*L)
+
+    direction = Orientation(rand(1:2))
+
+    if t == Electric::StabTypeTC
+        if direction == Vertical::Orientation
+            adj_cell_down = mod(cell_index-1, L) + div(cell_index, L) * L
+            bits = bit_string_i(edge_picker(adj_cell_down, 1), nbits)
         else
-            bits = bit_string_i(2*(i-L)+1, 2*L*L)
+            adj_cell_left = mod(cell_index, L) + mod(div(cell_index, L)-1, L) * L
+            bits = bit_string_i(edge_picker(adj_cell_left, 0), n)
         end
         return PauliOperator(0x0, zeros(Bool, n), bits);
-
-    elseif t == e_ver::StabTypeTC
-        if mod(i, L) == 0
-            bits = bit_string_i(2*(i+L-1)+2, 2*L*L)
+    elseif t == Magnetic::StabTypeTC
+        if direction == Vertical::Orientation
+            bits = bit_string_i(edge_picker(cell_index, 0), nbits)
         else
-            bits = bit_string_i(2*(i-1)+2, 2*L*L)
+            bits = bit_string_i(edge_picker(cell_index, 1), nbits)
         end
-        return PauliOperator(0x0, zeros(Bool, n), bits);
-
-    elseif t == m_hor::StabTypeTC
-        bits = bit_string_i(2*i+2, 2*L*L)
-        return PauliOperator(0x0, bits, zeros(Bool, n));
-
-    elseif t == m_ver::StabTypeTC
-        bits = bit_string_i(2*i+1, 2*L*L)
-        return PauliOperator(0x0, bits, zeros(Bool, n));
-
-    elseif t == f_hor::StabTypeTC
-        if i < L
-            bits_z = bit_string_i(2*(i+L*(L-1))+1, 2*L*L)
+        return PauliOperator(0x0, bits, zeros(Bool, nbits));
+    else
+        if direction == Vertical::Orientation
+            adj_cell_down = mod(cell_index-1, L) + div(cell_index, L) * L
+            bits_z = bit_string_i(edge_picker(adj_cell_down, 1), nbits)
+            bits_x = bit_string_i(edge_picker(cell_index, 0), nbits)
         else
-            bits_z = bit_string_i(2*(i-L)+1, 2*L*L)
+            adj_cell_left = mod(cell_index, L) + mod(div(cell_index, L)-1, L) * L
+            bits_z = bit_string_i(edge_picker(adj_cell_left, 0), n)
+            bits_x = bit_string_i(edge_picker(cell_index, 1), nbits)
         end
-        bits_x = bit_string_i(2*i+2, 2*L*L)
-        return PauliOperator(0x0, bits_x, bits_z);
-
-    elseif t == f_ver::StabTypeTC
-        if mod(i, L) == 0
-            bits_z = bit_string_i(2*(i+L-1)+2, 2*L*L)
-        else
-            bits_z = bit_string_i(2*(i-1)+2, 2*L*L)
-        end
-        bits_x = bit_string_i(2*i+1, 2*L*L)
         return PauliOperator(0x0, bits_x, bits_z);
     end
 end

@@ -65,27 +65,27 @@ function entanglement_entropy_topo(state::MixedDestabilizer,
 
     e_A = entanglement_entropy(state,     # state to compute entropy for
                 r_A,       # subsystem as list of indices. Specifying full subsystem gives the van-neumann entropy
-                Val(:clip) # algorithm to use (see documentation)
+                Val(:rref) # algorithm to use (see documentation)
                 )
     e_B = entanglement_entropy(state,     # state to compute entropy for
                 r_B,       # subsystem as list of indices. Specifying full subsystem gives the van-neumann entropy
-                Val(:clip) # algorithm to use (see documentation)
+                Val(:rref) # algorithm to use (see documentation)
                 )
     e_C = entanglement_entropy(state,     # state to compute entropy for
                 r_C,       # subsystem as list of indices. Specifying full subsystem gives the van-neumann entropy
-                Val(:clip) # algorithm to use (see documentation)
+                Val(:rref) # algorithm to use (see documentation)
                 )
     e_AB = entanglement_entropy(state,     # state to compute entropy for
                 r_AB,       # subsystem as list of indices. Specifying full subsystem gives the van-neumann entropy
-                Val(:clip) # algorithm to use (see documentation)
+                Val(:rref) # algorithm to use (see documentation)
                 )
     e_BC = entanglement_entropy(state,     # state to compute entropy for
                 r_BC,       # subsystem as list of indices. Specifying full subsystem gives the van-neumann entropy
-                Val(:clip) # algorithm to use (see documentation)
+                Val(:rref) # algorithm to use (see documentation)
                 )
     e_ABC = entanglement_entropy(state,     # state to compute entropy for
                 r_ABC,       # subsystem as list of indices. Specifying full subsystem gives the van-neumann entropy
-                Val(:clip) # algorithm to use (see documentation)
+                Val(:rref) # algorithm to use (see documentation)
                 )
     e_AC = entanglement_entropy(state,     # state to compute entropy for
                 [r_A; r_C],       # subsystem as list of indices. Specifying full subsystem gives the van-neumann entropy
