@@ -16,5 +16,5 @@ function iterate_measurements_only!(state::MixedDestabilizer, system, get_random
         end
     end
     
-    return 0
+    return state
 end
