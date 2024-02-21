@@ -55,7 +55,7 @@ function toric_code(system::EdgeSquareLattice, stab_type_dist::DiscreteNonParame
     end
 end
 
-function toric_code_GS(system::EdgeSquareLattice, Z_logical_1::Bool, Z_logical_2::Bool)
+function toric_code_GS(system::EdgeSquareLattice)
     """this return one of the four coputational logic states.
     At the moment it is only working for (0,0)"""
 
@@ -191,9 +191,9 @@ function ribs_stab(t::StabTypeTC, cell_index::Integer, system::EdgeSquareLattice
             bits = bit_string_i(edge_picker(adj_cell_down, 1), nbits)
         else
             adj_cell_left = mod(cell_index, L) + mod(div(cell_index, L)-1, L) * L
-            bits = bit_string_i(edge_picker(adj_cell_left, 0), n)
+            bits = bit_string_i(edge_picker(adj_cell_left, 0), nbits)
         end
-        return PauliOperator(0x0, zeros(Bool, n), bits);
+        return PauliOperator(0x0, zeros(Bool, nbits), bits);
     elseif t == Magnetic::StabTypeTC
         if direction == Vertical::Orientation
             bits = bit_string_i(edge_picker(cell_index, 0), nbits)
@@ -208,7 +208,7 @@ function ribs_stab(t::StabTypeTC, cell_index::Integer, system::EdgeSquareLattice
             bits_x = bit_string_i(edge_picker(cell_index, 0), nbits)
         else
             adj_cell_left = mod(cell_index, L) + mod(div(cell_index, L)-1, L) * L
-            bits_z = bit_string_i(edge_picker(adj_cell_left, 0), n)
+            bits_z = bit_string_i(edge_picker(adj_cell_left, 0), nbits)
             bits_x = bit_string_i(edge_picker(cell_index, 1), nbits)
         end
         return PauliOperator(0x0, bits_x, bits_z);
