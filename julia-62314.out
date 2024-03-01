@@ -1,0 +1,51 @@
+=========================================================
+Job submitted date = Thu 29 Feb 23:09:44 GMT 2024
+1 nodes ( 1 processes per node )
+1 hosts used: comp99
+Job output begins
+-----------------
+
+┌ Warning: Module DataStructures with build ID fafbfcfd-9874-bf25-0006-dc66593a3923 is missing from the cache.
+│ This may mean DataStructures [864edb3b-99cc-5e75-8d2d-829cb0a9cfe8] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1942
+┌ Warning: Module DataStructures with build ID fafbfcfd-9874-bf25-0006-dc66593a3923 is missing from the cache.
+│ This may mean DataStructures [864edb3b-99cc-5e75-8d2d-829cb0a9cfe8] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1942
+┌ Warning: The call to compilecache failed to create a usable precompiled cache file for Missings [e1d29d7a-bbdc-5cf2-9ac0-f12de2c33e28]
+│   exception = Invalid input in module list: expected DataAPI.
+└ @ Base loading.jl:1986
+┌ Warning: Module DataStructures with build ID fafbfcfd-9874-bf25-0006-dc66593a3923 is missing from the cache.
+│ This may mean DataStructures [864edb3b-99cc-5e75-8d2d-829cb0a9cfe8] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1942
+┌ Warning: Module Compat with build ID fafbfcfd-40dd-58e0-0006-dc667164a338 is missing from the cache.
+│ This may mean Compat [34da2185-b29b-5c13-b0c7-acf172513d20] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1942
+┌ Warning: Module DataStructures with build ID fafbfcfd-9874-bf25-0006-dc66593a3923 is missing from the cache.
+│ This may mean DataStructures [864edb3b-99cc-5e75-8d2d-829cb0a9cfe8] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1942
+┌ Warning: Module Distributions with build ID ffffffff-ffff-ffff-0006-e01d1f1d4c35 is missing from the cache.
+│ This may mean Distributions [31c24e10-a181-5473-b8eb-7969acd0382f] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1942
+┌ Warning: Module Compat with build ID fafbfcfd-40dd-58e0-0006-dc667164a338 is missing from the cache.
+│ This may mean Compat [34da2185-b29b-5c13-b0c7-acf172513d20] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1942
+┌ Warning: Module StatsBase with build ID ffffffff-ffff-ffff-0006-e01d3ec2aca6 is missing from the cache.
+│ This may mean StatsBase [2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1942
+┌ Warning: Module Plots with build ID ffffffff-ffff-ffff-0006-e0930413e2e9 is missing from the cache.
+│ This may mean Plots [91a5bcdd-55d7-5caf-9e0b-520d859cae80] does not support precompilation but is imported by a module that does.
+└ @ Base loading.jl:1942
+filename: /mnt/users/jovanovic/GitHub/Subsystem-Code-Physics/Remote-Hydra/Toric_Code/toric_code-TEE-FermiBoseCond.jl
+L: 21
+d: 3
+sys_type: Init_EdgeSquareLattice_KitaevDoNuT
+p_f_max: 0.75
+n_pf: 21
+p_f_arr: [0.0, 0.0375, 0.075, 0.1125, 0.15, 0.1875, 0.225, 0.2625, 0.3, 0.3375, 0.375, 0.4125, 0.45, 0.4875, 0.525, 0.5625, 0.6, 0.6375, 0.675, 0.7125, 0.75]
+p_b_max: 0.0
+n_pb: 1
+p_b_arr: [0.0]
+t_final: 100000
+n_t: 20
+t_mmt: [1, 2, 3, 6, 11, 21, 38, 70, 127, 234, 428, 785, 1438, 2637, 4833, 8859, 16238, 29764, 54556, 100000]
+exp_index: 86

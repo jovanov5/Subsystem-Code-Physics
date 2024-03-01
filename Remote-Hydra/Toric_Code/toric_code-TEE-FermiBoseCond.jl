@@ -3,7 +3,7 @@ using Random, Distributions  # random numbers
 using HDF5  # hdf5 files
 using QuantumClifford  # this is the stabilizer simulation package
 using Plots # for plotting
-using Formatting # string formatting
+# using Formatting # string formatting
 using LinearAlgebra # some useful matrices etc.
 include("../../AdditionalStructure/NewTypes.jl")
 include("../../AdditionalStructure/BitStringOps.jl")
@@ -50,7 +50,8 @@ function main(L::Integer, d::Integer, p_f_max::Float64, n_pf::Integer, p_b_max::
     println("exp_index: ", exp_index)
     # println("TEE: ", TEE_array)
 
-    Threads.@threads for loop_index in 1:(n_pf * n_pb)
+    # Threads.@threads for loop_index in 1:(n_pf * n_pb)
+    for loop_index in 1:(n_pf * n_pb)
         Indices = all_p_indices[loop_index]
         Probs = all_p_arr[loop_index]
         p_f_index, p_b_index = Indices
@@ -66,9 +67,9 @@ function main(L::Integer, d::Integer, p_f_max::Float64, n_pf::Integer, p_b_max::
             TEE_array[t_index, p_f_index, p_b_index] = entanglement_entropy_topo(state, system)
         end
     end
-    # Debug: Plot TEE vs time for the last p_f and p_b
-    p = plot(t_mmt, TEE_array[:, end, end], xlabel="Time", ylabel="TEE", marker=:circle)
-    savefig(p, dirpath*"/test_plot.pdf")
+    # # Debug: Plot TEE vs time for the last p_f and p_b
+    # p = plot(t_mmt, TEE_array[:, end, end], xlabel="Time", ylabel="TEE", marker=:circle)
+    # savefig(p, dirpath*"/test_plot.pdf")
     # Save the data!
     outfname = dirpath*"/data/test_TEE_exp:$(exp_index).h5"
     # write output to hdf5

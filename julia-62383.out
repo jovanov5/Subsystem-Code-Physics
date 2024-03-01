@@ -1,0 +1,21 @@
+=========================================================
+Job submitted date = Thu 29 Feb 23:09:48 GMT 2024
+1 nodes ( 1 processes per node )
+1 hosts used: comp74
+Job output begins
+-----------------
+
+filename: /mnt/users/jovanovic/GitHub/Subsystem-Code-Physics/Remote-Hydra/Toric_Code/toric_code-TEE-FermiBoseCond.jl
+L: 24
+d: 3
+sys_type: Init_EdgeSquareLattice_KitaevDoNuT
+p_f_max: 0.75
+n_pf: 21
+p_f_arr: [0.0, 0.0375, 0.075, 0.1125, 0.15, 0.1875, 0.225, 0.2625, 0.3, 0.3375, 0.375, 0.4125, 0.45, 0.4875, 0.525, 0.5625, 0.6, 0.6375, 0.675, 0.7125, 0.75]
+p_b_max: 0.0
+n_pb: 1
+p_b_arr: [0.0]
+t_final: 100000
+n_t: 20
+t_mmt: [1, 2, 3, 6, 11, 21, 38, 70, 127, 234, 428, 785, 1438, 2637, 4833, 8859, 16238, 29764, 54556, 100000]
+exp_index: 155
