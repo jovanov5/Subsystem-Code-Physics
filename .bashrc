@@ -1,3 +1,3 @@
-# . /usr/share/modules/init/bash
+. /usr/share/modules/init/bash
 
 module load mpi
