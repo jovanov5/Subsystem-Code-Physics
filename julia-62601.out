@@ -19,3 +19,10 @@ t_final: 100000
 n_t: 20
 t_mmt: [1, 2, 3, 6, 11, 21, 38, 70, 127, 234, 428, 785, 1438, 2637, 4833, 8859, 16238, 29764, 54556, 100000]
 exp_index: 373
+GKS: cannot open display - headless operation mode active
+---------------
+Job output ends
+=========================================================
+PBS job: finished date = Fri 1 Mar 15:57:16 GMT 2024
+Total run time : 9 Hours 42 Minutes 46 Seconds
+=========================================================
