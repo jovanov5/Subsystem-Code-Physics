@@ -75,6 +75,7 @@ function main(L::Integer, d::Integer, p_f_max::Float64, n_pf::Integer, p_b_max::
     for i_sub in 1:(n_subdiv - 1)
         push!(subdiv_array, round(Int, system.L * i_sub / n_subdiv))
     end
+    subdiv_array = Integer.(subdiv_array)
     # p = plot(subdiv_array, EE_cut_array[end, end, end, :], xlabel="Cut", ylabel="EE", marker=:circle)
     # savefig(p, dirpath*"/test_plot.pdf")
     # Save the data!

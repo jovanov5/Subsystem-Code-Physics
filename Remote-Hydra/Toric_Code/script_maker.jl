@@ -1,6 +1,6 @@
 # Define the file path
 dir_path = @__DIR__
-file_path = dir_path*"/test_script.sh"
+file_path = dir_path*"/queue_script.sh"
 jul_path = Sys.BINDIR
 
 # Open the file in write mode
