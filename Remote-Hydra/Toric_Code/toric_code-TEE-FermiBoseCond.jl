@@ -78,7 +78,7 @@ function main(L::Integer, d::Integer, p_f_max::Float64, n_pf::Integer, p_b_max::
     # p = plot(subdiv_array, EE_cut_array[end, end, end, :], xlabel="Cut", ylabel="EE", marker=:circle)
     # savefig(p, dirpath*"/test_plot.pdf")
     # Save the data!
-    outfname = dirpath*"/data/test_TEE_exp:$(exp_index).h5"
+    outfname = dirpath*"/data/TEE_exp:$(exp_index).h5"
     # write output to hdf5
     h5open(outfname, "w") do outfile
         write(outfile, "filename", filename)
