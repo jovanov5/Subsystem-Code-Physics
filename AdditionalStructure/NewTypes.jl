@@ -3,6 +3,7 @@
 struct VertexSquareLattice
     # Dimensions of lattice on the torus
     L::Int
+    k::Int
     nbits::Int
     cell_num::Int
     # Projectors and Ranges used in TEN and TEE measurments, assuming ususal 
@@ -23,6 +24,7 @@ end
 struct EdgeSquareLattice
     # Dimensions of lattice on the torus
     L::Int
+    k::Int
     nbits::Int
     cell_num::Int
     # Projectors and Ranges used in TEN and TEE measurments, assuming ususal 
@@ -43,6 +45,7 @@ end
 struct VertexHoneyLattice # Isometric to the EdgeSquareLattice up to some sheering!
     # Dimensions of lattice on the torus
     L::Int
+    k::Int
     nbits::Int
     cell_num::Int
     # Projectors and Ranges used in TEN and TEE measurments, assuming ususal 
@@ -88,7 +91,7 @@ function Init_VertexSquareLattice(subsys::Int)
     r_BC = 1*subsys_size+1:3*subsys_size
     r_ABC = 0*subsys_size+1:3*subsys_size
 
-    return VertexSquareLattice(L, nbits, cell_num, subsys, subsys_size, P_A, P_B, P_C, S, r_A, r_B, r_C, r_AB, r_BC, r_ABC)
+    return VertexSquareLattice(L, k, nbits, cell_num, subsys, subsys_size, P_A, P_B, P_C, S, r_A, r_B, r_C, r_AB, r_BC, r_ABC)
 end
 
 function Init_EdgeSquareLattice_SimpleAnuli(subsys::Int) # The regions A, B and C are all non-contractable anuli!
@@ -119,7 +122,7 @@ function Init_EdgeSquareLattice_SimpleAnuli(subsys::Int) # The regions A, B and 
     P_C = Diagonal(repeat(c_mask, 2))
     S = kron([false true; true false], Diagonal(repeat([true], k*L*L)));
 
-    return EdgeSquareLattice(L, nbits, cell_num, subsys, subsys_size, P_A, P_B, P_C, S, r_A, r_B, r_C, r_AB, r_BC, r_ABC)
+    return EdgeSquareLattice(L, k, nbits, cell_num, subsys, subsys_size, P_A, P_B, P_C, S, r_A, r_B, r_C, r_AB, r_BC, r_ABC)
 end
 
 function Init_EdgeSquareLattice_KitaevOrg(L::Integer, d::Integer) # The regions A, B and C are all contractable disks, but they corner touch!
@@ -158,7 +161,7 @@ function Init_EdgeSquareLattice_KitaevOrg(L::Integer, d::Integer) # The regions 
     P_C = Diagonal(repeat(c_mask, 2))
     S = kron([false true; true false], Diagonal(repeat([true], k*L*L)));
 
-    return EdgeSquareLattice(L, nbits, cell_num, subsys, subsys_size, P_A, P_B, P_C, S, r_A, r_B, r_C, r_AB, r_BC, r_ABC)
+    return EdgeSquareLattice(L, k, nbits, cell_num, subsys, subsys_size, P_A, P_B, P_C, S, r_A, r_B, r_C, r_AB, r_BC, r_ABC)
 end
 
 function Init_EdgeSquareLattice_KitaevDoNuT(L::Integer, d::Integer) # The regions A, B and C are all contractable disks, but they corner touch!
@@ -199,7 +202,7 @@ function Init_EdgeSquareLattice_KitaevDoNuT(L::Integer, d::Integer) # The region
     P_C = Diagonal(repeat(c_mask, 2))
     S = kron([false true; true false], Diagonal(repeat([true], k*L*L)));
 
-    return EdgeSquareLattice(L, nbits, cell_num, subsys, subsys_size, P_A, P_B, P_C, S, r_A, r_B, r_C, r_AB, r_BC, r_ABC)
+    return EdgeSquareLattice(L, k, nbits, cell_num, subsys, subsys_size, P_A, P_B, P_C, S, r_A, r_B, r_C, r_AB, r_BC, r_ABC)
 end
 
 function Init_VertexHoneyLattice(subsys::Int)
@@ -225,10 +228,10 @@ function Init_VertexHoneyLattice(subsys::Int)
     r_BC = 1*subsys_size+1:3*subsys_size
     r_ABC = 0*subsys_size+1:3*subsys_size
 
-    return VertexHoneyLattice(L, nbits, cell_num, subsys, subsys_size, P_A, P_B, P_C, S, r_A, r_B, r_C, r_AB, r_BC, r_ABC)
+    return VertexHoneyLattice(L, k, nbits, cell_num, subsys, subsys_size, P_A, P_B, P_C, S, r_A, r_B, r_C, r_AB, r_BC, r_ABC)
 end
 
 function To_VertexHoneyLattice(system::EdgeSquareLattice)
-    return VertexHoneyLattice(system.L, system.nbits, system.cell_num, system.subsys, system.subsys_size, system.P_A, system.P_B, system.P_C, system.S, system.r_A, system.r_B, system.r_C, system.r_AB, system.r_BC, system.r_ABC)
+    return VertexHoneyLattice(system.L, system.k, system.nbits, system.cell_num, system.subsys, system.subsys_size, system.P_A, system.P_B, system.P_C, system.S, system.r_A, system.r_B, system.r_C, system.r_AB, system.r_BC, system.r_ABC)
 end
 
