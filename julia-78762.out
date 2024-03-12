@@ -60,3 +60,9 @@ slurmstepd: error: _cgroup_procs_check: failed on path /sys/fs/cgroup/system.sli
 slurmstepd: error: unable to read '/sys/fs/cgroup/system.slice/slurmstepd.scope/job_78762/step_0/slurm/cgroup.procs'
 slurmstepd: error: _cgroup_procs_check: failed on path /sys/fs/cgroup/system.slice/slurmstepd.scope/job_78762/step_0/user/task_0/cgroup.procs: Permission denied
 slurmstepd: error: unable to read '/sys/fs/cgroup/system.slice/slurmstepd.scope/job_78762/step_0/user/task_0/cgroup.procs'
+---------------
+Job output ends
+=========================================================
+PBS job: finished date = Mon 11 Mar 14:35:23 GMT 2024
+Total run time : 106 Hours 25 Minutes 43 Seconds
+=========================================================
