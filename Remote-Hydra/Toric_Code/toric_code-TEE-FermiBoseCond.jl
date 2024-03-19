@@ -65,7 +65,7 @@ function main(L::Integer, d::Integer, p_f_max::Float64, n_pf::Integer, p_b_max::
         for t_index in 1:n_t
             t_evol = t_mmt[t_index] - t_old
             t_old = t_mmt[t_index]
-            state = iterate_measurements_only!(state, system, () -> toric_code(system, stab_distro), t_evol)
+            state = iterate_measurements_only_fast!(state, system, () -> toric_code(system, stab_distro), t_evol)
             TEE_array[t_index, p_f_index, p_b_index] = entanglement_entropy_topo(state, system)
             EE_cut_array[t_index, p_f_index, p_b_index, :] = entanglement_entropy_cut(state, system, n_subdiv)
         end
