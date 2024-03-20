@@ -83,4 +83,56 @@ function maximally_mixed_state(system)
     return state
 end
 
-# end
+function get_subdiv_array(system, n_subdiv)
+    """this returns the array of subdivisions for the given system."""
+    L = system.L
+    k = system.k
+    subdiv_array = []
+    for i_sub in 1:(n_subdiv - 1)
+        push!(subdiv_array, round(Int, L * i_sub / n_subdiv))
+    end
+    subdiv_array = Integer.(subdiv_array)
+    return subdiv_array
+end
+
+function get_subdiv_array(system, n_subdiv::Int)
+    """this returns the array of subdivisions for the given system."""
+    L = system.L
+    subdiv_array = []
+    for i_sub in 1:(n_subdiv - 1)
+        push!(subdiv_array, round(Int, L * i_sub / n_subdiv))
+    end
+    subdiv_array = Integer.(subdiv_array)
+    return subdiv_array
+end
+
+function get_subdiv_array(L::Int, n_subdiv::Int)
+    """this returns the array of subdivisions for the system of a given size L."""
+    subdiv_array = []
+    for i_sub in 1:(n_subdiv - 1)
+        push!(subdiv_array, round(Int, L * i_sub / n_subdiv))
+    end
+    subdiv_array = Integer.(subdiv_array)
+    return subdiv_array
+end
+
+function get_t_mmt_arr_simple(t_final::Int, n_t::Int)
+    """this returns the array of time steps for the simulation.
+    The time steps are exponentially spaced."""
+    t_mmt = [round(Int, x) for x in exp2.(range(0, log2(t_final), length=n_t))]    
+    return t_mmt
+end
+
+function get_t_mmt_arr_refined(t_final::Int, n_t::Int)
+    """this returns the array of time steps for the simulation.
+    The time steps are exponentially spaced,
+    exept that we have added a lin span between last two exponential steps."""
+    t_mmt_simple = get_t_mmt_arr_simple(t_final, n_t)    
+    t_mmt_final = t_mmt_simple[1:end-1]
+    last_steps = t_mmt_final[end]
+    while t_mmt_final[end] < t_final
+        push!(t_mmt_final, t_mmt_final[end] + last_steps)
+    end
+    t_mmt_final[end] = t_final
+    return t_mmt_final
+end

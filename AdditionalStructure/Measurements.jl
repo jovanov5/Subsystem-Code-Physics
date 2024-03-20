@@ -106,9 +106,10 @@ function entanglement_entropy_cut(state::MixedDestabilizer, system, n_subdiv::In
 
     L = system.L
     k = system.k
+    subdiv_array = get_subdiv_array(system, n_subdiv)
     ee_array = []
-    for sub_index in 1:(n_subdiv - 1)
-        subsys_rande = round(Int, L * sub_index / n_subdiv)*L*k
+    for sub_size in subdiv_array
+        subsys_rande = sub_size*L*k
         e = entanglement_entropy(state,     # state to compute entropy for
                 1:subsys_rande,       # subsystem as list of indices. Specifying full subsystem gives the van-neumann entropy
                 Val(:rref) # algorithm to use (see documentation)

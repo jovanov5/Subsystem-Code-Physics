@@ -5,6 +5,7 @@ using QuantumClifford  # this is the stabilizer simulation package
 using Plots # for plotting
 # using Formatting # string formatting
 using LinearAlgebra # some useful matrices etc.
+using Missings # for missing values
 include("../../AdditionalStructure/NewTypes.jl")
 include("../../AdditionalStructure/BitStringOps.jl")
 include("../../AdditionalStructure/Measurements.jl")
@@ -21,7 +22,7 @@ function main(L::Integer, d::Integer, p_f_max::Float64, n_pf::Integer, p_b_max::
 
     system = Init_EdgeSquareLattice_KitaevDoNuT(L, d);
     sys_type = "Init_EdgeSquareLattice_KitaevDoNuT"
-    t_mmt = [round(Int, x) for x in exp2.(range(0, log2(t_final), length=n_t))];
+    t_mmt = get_t_mmt_arr_refined(t_final, n_t);
     simulation = SimulationTime(t_final, t_mmt);
     dirpath = @__DIR__
     filename = @__FILE__
@@ -32,8 +33,9 @@ function main(L::Integer, d::Integer, p_f_max::Float64, n_pf::Integer, p_b_max::
     p_b_indices = 1:n_pb;
     all_p_arr = collect(Iterators.product(p_f_arr, p_b_arr))
     all_p_indices = collect(Iterators.product(p_f_indices, p_b_indices))
-    TEE_array = zeros(n_t, n_pf, n_pb)
-    EE_cut_array  = zeros(n_t, n_pf, n_pb, n_subdiv - 1)
+    subdiv_array = get_subdiv_array(system, n_subdiv)
+    TEE_array = fill(NaN, n_t, n_pf, n_pb)
+    EE_cut_array  = fill(NaN, n_t, n_pf, n_pb, n_subdiv - 1)
 
     println("filename: ", filename)
     println("L: ", L)
@@ -50,7 +52,9 @@ function main(L::Integer, d::Integer, p_f_max::Float64, n_pf::Integer, p_b_max::
     println("t_mmt: ", t_mmt)
     println("n_subdiv: ", n_subdiv)
     println("exp_index: ", exp_index)
+    println("subdiv_array: ", subdiv_array)
     # println("TEE: ", TEE_array)
+    # println("EE_cut: ", EE_cut_array)
 
     # Threads.@threads for loop_index in 1:(n_pf * n_pb)
     for loop_index in 1:(n_pf * n_pb)
@@ -59,6 +63,9 @@ function main(L::Integer, d::Integer, p_f_max::Float64, n_pf::Integer, p_b_max::
         p_f_index, p_b_index = Indices
         p_f, p_b = Probs
         p_tc = 1 - p_f - p_b
+        if p_tc < 0 # Easy fix for scanning the full parameter space triangle. ToDo: Implement a better way to scan the triangle.
+            continue
+        end
         stab_distro = Categorical([p_tc/2, p_tc/2, p_b, 0, p_f])
         state = toric_code_GS(system) # Get the pure TC ground state as the initial state
         t_old = 0
@@ -70,16 +77,23 @@ function main(L::Integer, d::Integer, p_f_max::Float64, n_pf::Integer, p_b_max::
             EE_cut_array[t_index, p_f_index, p_b_index, :] = entanglement_entropy_cut(state, system, n_subdiv)
         end
     end
-    # # Debug: Plot EE vs cut for the last p_f and p_b and last time
-    subdiv_array = []
-    for i_sub in 1:(n_subdiv - 1)
-        push!(subdiv_array, round(Int, system.L * i_sub / n_subdiv))
+
+    debug = false
+    save_data_prefix = ""
+    if debug
+        # Debug: Plot EE vs cut for the first p_f and p_b and last time
+        p = plot(subdiv_array, EE_cut_array[end, 2, 2, :], xlabel="Cut", ylabel="EE", marker=:circle)
+        savefig(p, dirpath*"/test_plot_1.pdf")
+
+        # Debug: Plot TEE vs p_b for the last p_f and last time
+        p = scatter(p_b_arr, TEE_array[end, end, :], xlabel="p_b", ylabel="TEE")
+        savefig(p, dirpath*"/test_plot_2.pdf")
+
+        save_data_prefix = "test_"
     end
-    subdiv_array = Integer.(subdiv_array)
-    # p = plot(subdiv_array, EE_cut_array[end, end, end, :], xlabel="Cut", ylabel="EE", marker=:circle)
-    # savefig(p, dirpath*"/test_plot.pdf")
+
     # Save the data!
-    outfname = dirpath*"/data/TEE_exp:$(exp_index).h5"
+    outfname = dirpath*"/data/$(save_data_prefix)TEE_exp:$(exp_index).h5"
     # write output to hdf5
     h5open(outfname, "w") do outfile
         write(outfile, "filename", filename)
