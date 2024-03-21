@@ -21,3 +21,9 @@ t_mmt: [1, 10, 100, 1000, 10000, 20000, 30000, 40000, 50000, 60000, 70000, 80000
 n_subdiv: 12
 exp_index: 246
 subdiv_array: [2, 4, 5, 7, 9, 10, 12, 14, 16, 18, 19]
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd: error: *** STEP 108365.0 ON comp53 CANCELLED AT 2024-03-21T11:02:36 ***
+slurmstepd: error: *** JOB 108365 ON comp53 CANCELLED AT 2024-03-21T11:02:36 ***
+
+[295835] signal (15): Terminated
+in expression starting at /mnt/users/jovanovic/GitHub/Subsystem-Code-Physics/Remote-Hydra/Toric_Code/toric_code-TEE-FermiBoseCond.jl:131

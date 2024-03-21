@@ -21,3 +21,6 @@ t_mmt: [1, 10, 100, 1000, 10000, 20000, 30000, 40000, 50000, 60000, 70000, 80000
 n_subdiv: 12
 exp_index: 291
 subdiv_array: [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22]
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd: error: *** STEP 108410.0 ON comp63 CANCELLED AT 2024-03-21T11:02:36 ***
+slurmstepd: error: *** JOB 108410 ON comp63 CANCELLED AT 2024-03-21T11:02:36 ***
