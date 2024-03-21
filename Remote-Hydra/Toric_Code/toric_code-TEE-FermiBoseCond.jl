@@ -23,6 +23,7 @@ function main(L::Integer, d::Integer, p_f_max::Float64, n_pf::Integer, p_b_max::
     system = Init_EdgeSquareLattice_KitaevDoNuT(L, d);
     sys_type = "Init_EdgeSquareLattice_KitaevDoNuT"
     t_mmt = get_t_mmt_arr_refined(t_final, n_t);
+    n_t_new = length(t_mmt)
     simulation = SimulationTime(t_final, t_mmt);
     dirpath = @__DIR__
     filename = @__FILE__
@@ -34,8 +35,8 @@ function main(L::Integer, d::Integer, p_f_max::Float64, n_pf::Integer, p_b_max::
     all_p_arr = collect(Iterators.product(p_f_arr, p_b_arr))
     all_p_indices = collect(Iterators.product(p_f_indices, p_b_indices))
     subdiv_array = get_subdiv_array(system, n_subdiv)
-    TEE_array = fill(NaN, n_t, n_pf, n_pb)
-    EE_cut_array  = fill(NaN, n_t, n_pf, n_pb, n_subdiv - 1)
+    TEE_array = fill(NaN, n_t_new, n_pf, n_pb)
+    EE_cut_array  = fill(NaN, n_t_new, n_pf, n_pb, n_subdiv - 1)
 
     println("filename: ", filename)
     println("L: ", L)
@@ -49,6 +50,7 @@ function main(L::Integer, d::Integer, p_f_max::Float64, n_pf::Integer, p_b_max::
     println("p_b_arr: ", p_b_arr)
     println("t_final: ", t_final)
     println("n_t: ", n_t)
+    println("n_t_new: ", n_t_new)
     println("t_mmt: ", t_mmt)
     println("n_subdiv: ", n_subdiv)
     println("exp_index: ", exp_index)
@@ -69,7 +71,7 @@ function main(L::Integer, d::Integer, p_f_max::Float64, n_pf::Integer, p_b_max::
         stab_distro = Categorical([p_tc/2, p_tc/2, p_b, 0, p_f])
         state = toric_code_GS(system) # Get the pure TC ground state as the initial state
         t_old = 0
-        for t_index in 1:n_t
+        for t_index in 1:n_t_new
             t_evol = t_mmt[t_index] - t_old
             t_old = t_mmt[t_index]
             state = iterate_measurements_only_fast!(state, system, () -> toric_code(system, stab_distro), t_evol)
@@ -108,6 +110,7 @@ function main(L::Integer, d::Integer, p_f_max::Float64, n_pf::Integer, p_b_max::
         write(outfile, "p_b_arr", p_b_arr)
         write(outfile, "t_final", t_final)
         write(outfile, "n_t", n_t)
+        write(outfile, "n_t_new", n_t_new)
         write(outfile, "t_mmt", t_mmt)
         write(outfile, "n_subdiv", n_subdiv)
         write(outfile, "subdiv_array", subdiv_array)
