@@ -1,6 +1,6 @@
 #!/bin/bash -l
 echo =========================================================   
-echo Job submitted  date = Wed 20 Mar 15:22:22 GMT 2024      
+echo Job submitted  date = Thu 21 Mar 14:03:31 GMT 2024      
 date_start=`date +%s`
 echo $SLURM_JOB_NUM_NODES nodes \( $SLURM_CPUS_ON_NODE processes per node \)        
 echo $SLURM_JOB_NUM_NODES hosts used: $SLURM_JOB_NODELIST      
@@ -15,7 +15,7 @@ echo
 ulimit -l unlimited
 
 export OMP_NUM_THEADS=1
- /usr/local/shared/slurm/bin/srun -u -n 1 --mpi=pmix_v4 --mem-per-cpu=4096 nice -n 10 /usr/local/shared/julia/julia-1.10.0/bin/julia /mnt/users/jovanovic/GitHub/Subsystem-Code-Physics/Remote-Hydra/Toric_Code/toric_code-TEE-FermiBoseCond.jl 15 3 1 21 1 21 100000.0 6 12 400
+ /usr/local/shared/slurm/bin/srun -u -n 1 --mpi=pmix_v4 --mem-per-cpu=4096 nice -n 10 /usr/local/shared/julia/julia-1.10.0/bin/julia /mnt/users/jovanovic/GitHub/Subsystem-Code-Physics/Remote-Hydra/Toric_Code/toric_code-TEE-FermiBoseCond.jl 15 3 1 21 1 21 20000.0 5 12 400
   echo ---------------                                           
   echo Job output ends                                           
 
