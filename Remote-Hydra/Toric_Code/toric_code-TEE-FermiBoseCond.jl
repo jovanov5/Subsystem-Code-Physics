@@ -121,8 +121,8 @@ t_mmt = Array{Int}(arg_dict["t_mmt"])
 subdiv_array = Array{Int}(arg_dict["subdiv_array"])
 exp_index = Int(arg_dict["exp_index"])
 
-if length(ARGS) > 2
-    debug = ARGS[2]
+if length(ARGS) > 1
+    debug = parse(Int, ARGS[2])
 else
     debug = 0
 end
