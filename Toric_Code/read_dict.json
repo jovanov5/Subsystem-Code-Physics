@@ -1,0 +1,33 @@
+{
+    "name": "John Doe",
+    "age": 30,
+    "email": "johndoe@example.com",
+    "address": {
+        "street": "123 Main St",
+        "city": "New York",
+        "state": "NY",
+        "zip": "10001"
+    },
+    "phoneNumbers": [
+        {
+            "type": "home",
+            "number": "555-1234"
+        },
+        {
+            "type": "work",
+            "number": "555-5678"
+        }
+    ],
+    "friends": [
+        {
+            "name": "Jane Smith",
+            "age": 28,
+            "email": "janesmith@example.com"
+        },
+        {
+            "name": "Bob Johnson",
+            "age": 32,
+            "email": "bobjohnson@example.com"
+        }
+    ]
+}
