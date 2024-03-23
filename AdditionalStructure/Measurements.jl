@@ -97,7 +97,7 @@ function entanglement_entropy_topo(state::MixedDestabilizer,
     return e_topo
 end
 
-function entanglement_entropy_cut(state::MixedDestabilizer, system, n_subdiv::Integer)
+function entanglement_entropy_cut(state::MixedDestabilizer, system, subdiv_array)
     """this calculates the entanglement entropy along a cut of the state on a torus, using the anular subdivisions.
     state            : state to be examined.
     system           : system object that has knows everything!
@@ -106,7 +106,6 @@ function entanglement_entropy_cut(state::MixedDestabilizer, system, n_subdiv::In
 
     L = system.L
     k = system.k
-    subdiv_array = get_subdiv_array(system, n_subdiv)
     ee_array = []
     for sub_size in subdiv_array
         subsys_rande = sub_size*L*k

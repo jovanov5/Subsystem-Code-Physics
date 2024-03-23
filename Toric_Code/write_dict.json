@@ -1,0 +1,34 @@
+{
+    "name": "John",
+    "pets": {
+        "cat": {
+            "name": "Whiskers",
+            "breed": "Siamese",
+            "age": 3
+        },
+        "dog": {
+            "name": "Max",
+            "breed": "Labrador",
+            "age": 5
+        }
+    },
+    "city": "New York",
+    "contacts": [
+        {
+            "name": "Alice",
+            "phone": "123-456-7890",
+            "email": "alice@example.com"
+        },
+        {
+            "name": "Bob",
+            "phone": "987-654-3210",
+            "email": "bob@example.com"
+        }
+    ],
+    "age": 30,
+    "address": {
+        "zipcode": "10001",
+        "street": "123 Main St",
+        "state": "NY"
+    }
+}
