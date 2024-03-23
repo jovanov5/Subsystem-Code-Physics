@@ -22,3 +22,40 @@ t_mmt: [1, 12, 141, 1682, 3364, 5046, 6728, 8410, 10092, 11774, 13456, 15138, 16
 n_subdiv: 12
 exp_index: 307
 subdiv_array: [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22]
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd: error: *** JOB 121402 ON comp50 CANCELLED AT 2024-03-23T19:42:54 ***
+slurmstepd: error: *** STEP 121402.0 ON comp50 CANCELLED AT 2024-03-23T19:42:54 ***
+
+[2860318] signal (15): Terminated
+in expression starting at /mnt/users/jovanovic/GitHub/Subsystem-Code-Physics/Remote-Hydra/Toric_Code/toric_code-TEE-FermiBoseCond.jl:134
+& at ./int.jl:347 [inlined]
+macro expansion at /mnt/users/jovanovic/.julia/packages/QuantumClifford/GSQB5/src/QuantumClifford.jl:709 [inlined]
+macro expansion at ./simdloop.jl:77 [inlined]
+comm at /mnt/users/jovanovic/.julia/packages/QuantumClifford/GSQB5/src/QuantumClifford.jl:708 [inlined]
+comm at /mnt/users/jovanovic/.julia/packages/QuantumClifford/GSQB5/src/QuantumClifford.jl:719 [inlined]
+anticomm_update_rows at /mnt/users/jovanovic/.julia/packages/QuantumClifford/GSQB5/src/project_trace_reset.jl:329 [inlined]
+#_project!#108 at /mnt/users/jovanovic/.julia/packages/QuantumClifford/GSQB5/src/project_trace_reset.jl:436
+_project! at /mnt/users/jovanovic/.julia/packages/QuantumClifford/GSQB5/src/project_trace_reset.jl:378 [inlined]
+macro expansion at /mnt/users/jovanovic/.julia/packages/QuantumClifford/GSQB5/src/macrotools.jl:14 [inlined]
+#project!#103 at /mnt/users/jovanovic/.julia/packages/QuantumClifford/GSQB5/src/project_trace_reset.jl:235 [inlined]
+project! at /mnt/users/jovanovic/.julia/packages/QuantumClifford/GSQB5/src/project_trace_reset.jl:234 [inlined]
+iterate_measurements_only_fast! at /mnt/users/jovanovic/GitHub/Subsystem-Code-Physics/AdditionalStructure/Iterators.jl:34
+main at /mnt/users/jovanovic/GitHub/Subsystem-Code-Physics/Remote-Hydra/Toric_Code/toric_code-TEE-FermiBoseCond.jl:77
+unknown function (ip: 0x7f2831fce3f5)
+_jl_invoke at /cache/build/builder-amdci4-6/julialang/julia-release-1-dot-10/src/gf.c:2894 [inlined]
+ijl_apply_generic at /cache/build/builder-amdci4-6/julialang/julia-release-1-dot-10/src/gf.c:3076
+jl_apply at /cache/build/builder-amdci4-6/julialang/julia-release-1-dot-10/src/julia.h:1982 [inlined]
+do_call at /cache/build/builder-amdci4-6/julialang/julia-release-1-dot-10/src/interpreter.c:126
+eval_value at /cache/build/builder-amdci4-6/julialang/julia-release-1-dot-10/src/interpreter.c:223
+eval_stmt_value at /cache/build/builder-amdci4-6/julialang/julia-release-1-dot-10/src/interpreter.c:174 [inlined]
+eval_body at /cache/build/builder-amdci4-6/julialang/julia-release-1-dot-10/src/interpreter.c:617
+jl_interpret_toplevel_thunk at /cache/build/builder-amdci4-6/julialang/julia-release-1-dot-10/src/interpreter.c:775
+jl_toplevel_eval_flex at /cache/build/builder-amdci4-6/julialang/julia-release-1-dot-10/src/toplevel.c:934
+jl_toplevel_eval_flex at /cache/build/builder-amdci4-6/julialang/julia-release-1-dot-10/src/toplevel.c:877
+jl_toplevel_eval_flex at /cache/build/builder-amdci4-6/julialang/julia-release-1-dot-10/src/toplevel.c:877
+ijl_toplevel_eval_in at /cache/build/builder-amdci4-6/julialang/julia-release-1-dot-10/src/toplevel.c:985
+eval at ./boot.jl:385 [inlined]
+include_string at ./loading.jl:2070
+_jl_invoke at /cache/build/builder-amdci4-6/julialang/julia-release-1-dot-10/src/gf.c:2894 [inlined]
+ijl_apply_generic at /cache/build/builder-amdci4-6/julialang/julia-release-1-dot-10/src/gf.c:3076
+_include at ./loading.jl:2130

@@ -22,3 +22,21 @@ t_mmt: [1, 12, 141, 1682, 3364, 5046, 6728, 8410, 10092, 11774, 13456, 15138, 16
 n_subdiv: 12
 exp_index: 75
 subdiv_array: [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22]
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd: error: *** STEP 121170.0 ON comp49 CANCELLED AT 2024-03-23T19:42:55 ***
+slurmstepd: error: *** JOB 121170 ON comp49 CANCELLED AT 2024-03-23T19:42:55 ***
+
+[1925426] signal (15): Terminated
+in expression starting at /mnt/users/jovanovic/GitHub/Subsystem-Code-Physics/Remote-Hydra/Toric_Code/toric_code-TEE-FermiBoseCond.jl:134
+comm at ./abstractarray.jl:0 [inlined]
+comm at /mnt/users/jovanovic/.julia/packages/QuantumClifford/GSQB5/src/QuantumClifford.jl:736 [inlined]
+#_project!#108 at /mnt/users/jovanovic/.julia/packages/QuantumClifford/GSQB5/src/project_trace_reset.jl:386
+_project! at /mnt/users/jovanovic/.julia/packages/QuantumClifford/GSQB5/src/project_trace_reset.jl:378 [inlined]
+macro expansion at /mnt/users/jovanovic/.julia/packages/QuantumClifford/GSQB5/src/macrotools.jl:14 [inlined]
+#project!#103 at /mnt/users/jovanovic/.julia/packages/QuantumClifford/GSQB5/src/project_trace_reset.jl:235 [inlined]
+project! at /mnt/users/jovanovic/.julia/packages/QuantumClifford/GSQB5/src/project_trace_reset.jl:234 [inlined]
+iterate_measurements_only_fast! at /mnt/users/jovanovic/GitHub/Subsystem-Code-Physics/AdditionalStructure/Iterators.jl:34
+main at /mnt/users/jovanovic/GitHub/Subsystem-Code-Physics/Remote-Hydra/Toric_Code/toric_code-TEE-FermiBoseCond.jl:77
+unknown function (ip: 0x7f0fedf6c3f5)
+_jl_invoke at /cache/build/builder-amdci4-6/julialang/julia-release-1-dot-10/src/gf.c:2894 [inlined]
+ijl_apply_generic at /cache/build/builder-amdci4-6/julialang/julia-release-1-dot-10/src/gf.c:3076
