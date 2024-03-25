@@ -83,6 +83,10 @@ function maximally_mixed_state(system)
     return state
 end
 
+function get_random_pure_state(system)
+    return MixedDestabilizer(random_stabilizer(system.nbits))
+end
+
 function get_subdiv_array(system, n_subdiv::Int)
     """this returns the array of subdivisions for the given system."""
     L = system.L
