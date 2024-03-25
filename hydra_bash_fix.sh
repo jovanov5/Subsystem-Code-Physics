@@ -1,0 +1,1 @@
+. /usr/share/modules/init/bash

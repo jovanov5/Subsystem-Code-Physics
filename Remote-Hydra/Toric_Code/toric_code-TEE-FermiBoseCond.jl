@@ -45,7 +45,7 @@ function main(L::Integer, d::Integer, p_f_arr::Array{Float64}, p_b_arr::Array{Fl
     println("sys_type: ", sys_type)
     println("p_f_arr: ", p_f_arr)
     println("p_b_arr: ", p_b_arr)
-    println("t_mmt: ", t_mmt)
+    # println("t_mmt: ", t_mmt)
     println("subdiv_array: ", subdiv_array)
     println("exp_index: ", exp_index)
     # println("TEE: ", TEE_array)
@@ -59,7 +59,7 @@ function main(L::Integer, d::Integer, p_f_arr::Array{Float64}, p_b_arr::Array{Fl
         p_f, p_b = Probs
         p_tc = 1 - p_f - p_b
         if p_tc < 0 # Easy fix for scanning the full parameter space triangle. ToDo: Implement a better way to scan the triangle.
-            continue
+            continue # Also ToDO! Fix the computational precision issue, some points at p_tc = 0 are not included!
         end
         stab_distro = Categorical([p_tc/2, p_tc/2, p_b, 0, p_f])
         state = toric_code_GS(system) # Get the pure TC ground state as the initial state
