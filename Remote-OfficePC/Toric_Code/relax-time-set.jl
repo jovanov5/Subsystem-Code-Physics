@@ -96,7 +96,7 @@ p_b_arr = [0, 0.1, 0.4]
 L = 60
 d = 3
 
-t_mmt = Array{Int}(1:10000)
+t_mmt = Array{Int}(1:1000)
 subdiv_array = [30]
 
 EE_cut_array = example_run(L, d, p_f_arr, p_b_arr, t_mmt, subdiv_array)
