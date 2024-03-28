@@ -1,0 +1,10 @@
+=========================================================
+Job submitted date = Thu 28 Mar 13:30:33 GMT 2024
+1 nodes ( 1 processes per node )
+1 hosts used: comp75
+Job output begins
+-----------------
+
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd: error: *** STEP 144087.0 ON comp75 CANCELLED AT 2024-03-28T14:30:36 ***
+slurmstepd: error: *** JOB 144087 ON comp75 CANCELLED AT 2024-03-28T14:30:36 ***
