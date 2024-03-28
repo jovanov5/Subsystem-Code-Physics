@@ -21,24 +21,24 @@ jul_path = Sys.BINDIR
 
 # Define the number of iterations for the for loop
 num_iterations = 2
-L_arr = [15, 18, 21, 24]
+L_arr = [24, 30, 36, 42, 48, 54, 60, 66]
 d = 3
 
-p_f_max = 1
-n_pf = 21
-p_f_arr = [x for x in range(0, p_f_max, length=n_pf)]
+# p_f_max = 1
+# n_pf = 21
+p_f_arr = [0.5]
 
-p_b_max = 1
-n_pb = 21
-p_b_arr = [x for x in range(0, p_b_max, length=n_pb)]
+# p_b_max = 1
+# n_pb = 21
+p_b_arr = [0.0, 0.1, 0.4]
 
-t_final = Int(2e4) # 1e5
-n_t = 5 # 6
-t_mmt = get_t_mmt_arr_refined(t_final, n_t)
+# t_final = Int(2e4) # 1e5
+# n_t = 5 # 6
+t_mmt = Array{Int}(20:20:2000).+50
 
 n_subdiv = "all"
 
-number_of_repetitions = 1
+number_of_repetitions = 100
 number_of_experiments = number_of_repetitions*length(L_arr)
 
 # Generate the arg files
