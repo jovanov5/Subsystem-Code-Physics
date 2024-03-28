@@ -76,7 +76,7 @@ function example_run(L::Integer, d::Integer, p_f_arr::Array{Float64}, p_b_arr::A
     end
 
     # Save the data!
-    outfname = dirpath*"/data/TEE_exp:relax.h5"
+    outfname = dirpath*"/data/TEE_exp:relax_3.h5"
     # write output to hdf5
     h5open(outfname, "w") do outfile
         write(outfile, "filename", filename)
@@ -91,7 +91,7 @@ function example_run(L::Integer, d::Integer, p_f_arr::Array{Float64}, p_b_arr::A
 end
 
 p_f_arr = [0.5]
-p_b_arr = [0, 0.1, 0.4]
+p_b_arr = [0.4]
 
 L = 60
 d = 3
