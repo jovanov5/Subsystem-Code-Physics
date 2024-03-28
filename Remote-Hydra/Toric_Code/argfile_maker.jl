@@ -26,11 +26,11 @@ d = 3
 
 # p_f_max = 1
 # n_pf = 21
-p_f_arr = [0.5]
+p_f_arr = [0.55]
 
 # p_b_max = 1
 # n_pb = 21
-p_b_arr = [0.0, 0.1, 0.4]
+p_b_arr = [0.0, 0.1, 0.35]
 
 # t_final = Int(2e4) # 1e5
 # n_t = 5 # 6
