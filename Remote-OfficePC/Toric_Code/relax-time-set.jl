@@ -76,7 +76,7 @@ function example_run(L::Integer, d::Integer, p_f_arr::Array{Float64}, p_b_arr::A
     end
 
     # Save the data!
-    outfname = dirpath*"/data/TEE_exp:relax_3.h5"
+    outfname = dirpath*"/data/TEE_exp:relax_4.h5"
     # write output to hdf5
     h5open(outfname, "w") do outfile
         write(outfile, "filename", filename)
@@ -90,13 +90,13 @@ function example_run(L::Integer, d::Integer, p_f_arr::Array{Float64}, p_b_arr::A
     return EE_cut_array#, TEE_array
 end
 
-p_f_arr = [0.5]
-p_b_arr = [0.4]
+p_f_arr = [0.55]
+p_b_arr = [0.0]
 
-L = 60
+L = 24
 d = 3
 
 t_mmt = Array{Int}(1:1000)
-subdiv_array = [30]
+subdiv_array = [12]
 
 EE_cut_array = example_run(L, d, p_f_arr, p_b_arr, t_mmt, subdiv_array)
