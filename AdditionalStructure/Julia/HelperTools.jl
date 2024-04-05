@@ -9,6 +9,16 @@ Date: [Current Date]
 
 # module HelperTools :: Need to learn how to create a module in Julia!
 
+function edge_picker(i::Int, j::Int, direction::Int)
+    """
+    :param i: int, the x coordinate of the vertex
+    :param j: int, the y coordinate of the vertex
+    :param direction: int, the direction of the edge, 0 for horizontal, 1 for vertical
+    """
+    return 2*(i+j*L) + direction + 1 # Julia arrays are 1-indexed.
+    
+end
+
 function visualise_the_stabiliser(stabiliser::PauliOperator, system::EdgeSquareLattice)
     stab = stab_to_gf2(stabiliser)
     L = system.L
@@ -19,18 +29,18 @@ function visualise_the_stabiliser(stabiliser::PauliOperator, system::EdgeSquareL
 
     for i in 0:L-1
         for j in 0:L-1
-            if stab[edge_picker(i+j*L, 1)] == 1
+            if stab[edge_picker(i, j, 1)] == 1
                 plot!([(i, j), (i+1, j)], color=:blue, legend= false, xticks= 0:1:L, yticks= 0:1:L)
                 plot!([(i+1/2, j+1/2), (i+1/2, j-1/2)], color=:blue, linestyle= :dash, legend= false, xticks= 0:1:L, yticks= 0:1:L)
             end
-            if stab[edge_picker(i+j*L, 1)+nbits] == 1
+            if stab[edge_picker(i, j, 1)+nbits] == 1
                 plot!([(i, j), (i+1, j)], color=:red, legend= false, xticks= 0:1:L, yticks= 0:1:L)
             end
-            if stab[edge_picker(i+j*L, 0)] == 1
+            if stab[edge_picker(i, j, 0)] == 1
                 plot!([(i, j), (i, j+1)], color=:blue, legend= false, xticks= 0:1:L, yticks= 0:1:L)
                 plot!([(i+1/2, j+1/2), (i-1/2, j+1/2)], color=:blue, linestyle= :dash, legend= false, xticks= 0:1:L, yticks= 0:1:L)
             end
-            if stab[edge_picker(i+j*L, 0)+nbits] == 1
+            if stab[edge_picker(i, j, 0)+nbits] == 1
                 plot!([(i, j), (i, j+1)], color=:red, legend= false, xticks= 0:1:L, yticks= 0:1:L)
             end
         end

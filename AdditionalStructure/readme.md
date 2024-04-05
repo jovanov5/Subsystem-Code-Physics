@@ -1,5 +1,3 @@
-# Holds `Julia` Files Defining Additonal Structure on top of `QuantumClifford`
+# README
 
-The following files define:
-1. Useful data types such as `system` which holds geometrical data and subsystem PROJECTORS used in various measurements.
-2. BitString functions
+Holds both `Pyhton` and `Julia` custom depencancy files defining helper types and functions.
