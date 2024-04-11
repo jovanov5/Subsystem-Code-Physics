@@ -7,13 +7,14 @@ using Plots # for plotting
 using LinearAlgebra # some useful matrices etc.
 using Missings # for missing values
 using JSON3 # for reading the JSON file
-include("../../AdditionalStructure/NewTypes.jl")
-include("../../AdditionalStructure/BitStringOps.jl")
-include("../../AdditionalStructure/Measurements.jl")
-include("../../AdditionalStructure/MICModels.jl")
-include("../../AdditionalStructure/ModelRuns.jl")
-include("../../AdditionalStructure/HelperTools.jl")
-include("../../AdditionalStructure/Iterators.jl");
+dep_path = "../AdditionalStructure/Julia/"
+include("$(dep_path)NewTypes.jl")
+include("$(dep_path)BitStringOps.jl")
+include("$(dep_path)Measurements.jl")
+include("$(dep_path)MICModels.jl")
+include("$(dep_path)ModelRuns.jl")
+include("$(dep_path)HelperTools.jl")
+include("$(dep_path)Iterators.jl");
 
 function main(L::Integer, d::Integer, p_f_arr::Array{Float64}, p_b_arr::Array{Float64}, t_mmt::Array{Int}, subdiv_array::Array{Int}, exp_index::Integer, debug::Int)
     """ This is the main function on terminal call.
