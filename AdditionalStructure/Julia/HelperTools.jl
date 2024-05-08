@@ -61,6 +61,15 @@ function z_polarised_state(system)
     return state
 end
 
+function z_polarised_state_temp(nbits::Int)
+    """this returns the z-polarised state for the given system."""
+    state = Stabilizer(zeros(UInt8, nbits), # Phases
+        zeros(Bool, nbits, nbits), # X Tableau (as matrix of Bools)
+        Matrix(LinearAlgebra.I, nbits, nbits)); # Z Tableau
+    state = MixedDestabilizer(state)
+    return state
+end
+
 function x_polarised_state(system)
     """this returns the x-polarised state for the given system."""
     nbits = system.nbits
@@ -86,6 +95,17 @@ function maximally_mixed_state(system)
     # initial state is the maximally mixed state
     # since the package does not let you create an empty tableau, I defined the identity as the stabilizer, which is the same statement
     nbits = system.nbits
+    state = Stabilizer(zeros(UInt8, 1), # Phases
+        zeros(Bool, 1, nbits), # X Tableau (as matrix of Bools)
+        zeros(Bool, 1, nbits)); # Z Tableau
+    state = MixedDestabilizer(state)
+    return state
+end
+
+function maximally_mixed_state(nbits::Int)
+    """this returns the maximally mixed state for the given system."""
+    # initial state is the maximally mixed state
+    # since the package does not let you create an empty tableau, I defined the identity as the stabilizer, which is the same statement
     state = Stabilizer(zeros(UInt8, 1), # Phases
         zeros(Bool, 1, nbits), # X Tableau (as matrix of Bools)
         zeros(Bool, 1, nbits)); # Z Tableau
@@ -159,4 +179,69 @@ function get_t_mmt_arr_refined(t_final::Int, n_t::Int)
     end
     t_mmt_final[end] = t_final
     return t_mmt_final
+end
+
+# Helper routines for the Zassenhauser algorithm
+
+function zassenhausen_map_f(g::PauliOperator)
+    return g ⊗ g ⊗ g ⊗ g
+end
+
+function zassenhausen_map_h(g::PauliOperator)
+    e = g * g # this is the identity operator, cool trick 
+    return g ⊗ g ⊗ e ⊗ e
+end
+
+function zassenhausen_state(deformator, probe_state, nbits::Int)
+    """Given two sungroup of the Pauli group, given as invalid stabilisers, we return the "Zassenhauser" state.
+    """
+    state = maximally_mixed_state(4*nbits)
+
+    for g in deformator
+        project!(state, zassenhausen_map_f(g), keep_result= false)
+    end
+
+    for g in probe_state
+        project!(state, zassenhausen_map_h(g), keep_result= false)
+    end
+
+    return state
+end
+
+function zassenhausen_state(charge_representative, deformator, probe_state, nbits::Int)
+    """Given two sungroup of the Pauli group, given as invalid stabilisers, we return the "Zassenhauser" state.
+    """
+    state = maximally_mixed_state(4*nbits)
+
+    project!(state, zassenhausen_map_f(charge_representative), keep_result= false)
+    
+    for g in deformator
+        project!(state, zassenhausen_map_f(g), keep_result= false)
+    end
+
+    for g in probe_state
+        project!(state, zassenhausen_map_h(g), keep_result= false)
+    end
+
+    return state
+end
+
+function zassenhausen_alg(deformator, probe_state, nbits::Int)
+    """Given two sungroup of the Pauli group, given as invalid stabilisers generators, we return the dims we need.
+    """
+    state = zassenhausen_state(deformator, probe_state, nbits)
+    N = nbits
+    dim_intersection = 2*N - entanglement_entropy(state, (2*N+1):4N, Val(:clip))
+    dim_sum = 4*N - dim_intersection - entanglement_entropy(state, 1:4N, Val(:clip))
+    return dim_intersection, dim_sum
+end
+
+function zassenhausen_alg(charge_representative, deformator, probe_state, nbits::Int)
+    """Given two sungroup of the Pauli group, given as invalid stabilisers generators, we return the dims we need.
+    """
+    state = zassenhausen_state(charge_representative, deformator, probe_state, nbits)
+    N = nbits
+    dim_intersection = 2*N - entanglement_entropy(state, (2*N+1):4N, Val(:clip))
+    dim_sum = 4*N - dim_intersection - entanglement_entropy(state, 1:4N, Val(:clip))
+    return dim_intersection, dim_sum
 end

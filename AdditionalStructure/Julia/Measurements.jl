@@ -117,3 +117,126 @@ function entanglement_entropy_cut(state::MixedDestabilizer, system, subdiv_array
     end
     return ee_array
 end
+
+function fermion_correlator(state::MixedDestabilizer, system)
+    """this calculates the fermionic correlator between two sites i and j of the state on a torus.
+    state            : state to be examined.
+    system           : system object that has knows everything!
+    i, j             : indices of the sites to be correlated.
+    """
+
+    L = system.L
+    k = system.k
+    nbits = system.nbits
+    cell_num = system.cell_num
+
+    # TODO: Add code here
+
+end
+
+function e_boson_correlator(state::MixedDestabilizer, system, e_deformator)
+    """this calculates the bosonic correlator between two sites i and j of the state on a torus.
+    e_boson is defined as a vertex defect proliferated by Z bond-operators.
+    state            : state to be examined.
+    system           : system object that has knows everything!
+    i, j             : indices of the sites to be correlated.
+    Best is to precompute the deformator (invalid-)stabiliser state.
+    """
+
+    L = system.L
+    k = system.k
+    nbits = system.nbits
+    cell_num = system.cell_num
+
+    corr_function = zeros(Float64, L, L)
+
+    for r_x  = 0:L-1
+        for r_y = 0:L-1
+            if r_x == 0 && r_y == 0
+                corr_function[r_x+1, r_y+1] = 1
+            else
+                e_representative = get_e_reprentative((r_x, r_y), system)
+                size_of_bff = 0
+                dim_source, _ = zassenhausen_alg(e_representative, e_deformator, stabilizerview(state), nbits)
+                dim_norm, _ = zassenhausen_alg(e_deformator, stabilizerview(state), nbits)
+                corr_function[r_x+1, r_y+1] = dim_source - dim_norm
+            end
+        end
+    end
+
+    return corr_function
+
+end
+
+function get_e_reprentative(r_2::Tuple{Int, Int}, system)
+    """ This gets you a PauliOperator of one string connecting two e-tyope defects between sites (0,0) and r_2.
+    """
+
+    nbits = system.nbits
+    L = system.L
+    Z_op_list = zeros(Bool, nbits)
+    X_op_list = zeros(Bool, nbits)
+
+    for cell_index = 0:r_2[1]-1
+        Z_op_list[2*cell_index + 1 + 1] = true
+    end
+
+    for cell_index = 0:r_2[2]-1
+        Z_op_list[2*(L*cell_index + r_2[1]) + 1] = true
+    end
+
+    return PauliOperator(0x0, X_op_list, Z_op_list)
+end
+
+function get_e_deformator(system)
+    nbits = system.nbits
+    L = system.L
+    e_deformators = []
+
+    for cell_index = 0:L*L-1
+        push!(e_deformators, tc_stab(Plaquette, cell_index, system))
+    end
+
+    # The noncontractible loops are actually very important deformators.
+
+    Z_op_list = zeros(Bool, nbits)
+    X_op_list = zeros(Bool, nbits)
+    for cell_index = 0:L-1
+        Z_op_list[2*cell_index+1+1] = true
+    end
+    Z_loop_1 = PauliOperator(0x0, X_op_list, Z_op_list)
+    push!(e_deformators, Z_loop_1) # Up Loop
+
+    Z_op_list = zeros(Bool, nbits)
+    X_op_list = zeros(Bool, nbits)
+    for cell_index = 0:L-1
+        Z_op_list[2*L*cell_index+1] = true
+    end
+    Z_loop_2 = PauliOperator(0x0, X_op_list, Z_op_list)
+    push!(e_deformators, Z_loop_2) # Right Loop
+
+    return e_deformators
+
+end
+
+function get_f_deformator(system)
+    nbits = system.nbits
+    state = maximally_mixed_state(system)
+    L = system.L
+    
+
+    for cell_index = 0:L*L-1
+        state, anticom_index, result = project!(state, tc_stab(Star, cell_index, system))
+        # See how to force the projection result!
+    end
+
+    for cell_index = 0:L*L-1
+        state, anticom_index, result = project!(state, tc_stab(Plaquette, cell_index, system)) 
+        # See how to force the projection result!
+    end
+
+    # I will omit the noncontractible loop for now, it is an exponentially small effect in the large L limit.
+
+    return stabilizerview(state)
+
+end
