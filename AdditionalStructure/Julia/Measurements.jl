@@ -131,7 +131,7 @@ function general_zassenhausen_correlator(state::MixedDestabilizer, system, rep_f
     nbits = system.nbits
     cell_num = system.cell_num
 
-    corr_function = zeros(Float64, L, L)
+    corr_function = zeros(Bool, L, L)
 
     for r_x  = 0:L-1
         for r_y = 0:L-1
@@ -142,7 +142,7 @@ function general_zassenhausen_correlator(state::MixedDestabilizer, system, rep_f
                 size_of_bff = 0
                 dim_source, _ = zassenhausen_alg(rep, deformator, stabilizerview(state), nbits)
                 dim_norm, _ = zassenhausen_alg(deformator, stabilizerview(state), nbits)
-                corr_function[r_x+1, r_y+1] = dim_source - dim_norm
+                corr_function[r_x+1, r_y+1] = (dim_source - dim_norm) == 1
             end
         end
     end

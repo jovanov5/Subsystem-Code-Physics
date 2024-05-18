@@ -7,7 +7,7 @@ using Plots # for plotting
 using LinearAlgebra # some useful matrices etc.
 using Missings # for missing values
 using JSON3 # for reading the JSON file
-dep_path = "../AdditionalStructure/Julia/"
+dep_path = "../../AdditionalStructure/Julia/"
 include("$(dep_path)NewTypes.jl")
 include("$(dep_path)BitStringOps.jl")
 include("$(dep_path)Measurements.jl")

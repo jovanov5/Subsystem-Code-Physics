@@ -245,3 +245,71 @@ function zassenhausen_alg(charge_representative, deformator, probe_state, nbits:
     dim_sum = 4*N - dim_intersection - entanglement_entropy(state, 1:4N, Val(:clip))
     return dim_intersection, dim_sum
 end
+
+
+function taxi_metrix_torus(x1, y1, x2, y2, Lx, Ly)
+    dx = abs(x1 - x2)
+    dy = abs(y1 - y2)
+    dx = min(dx, Lx - dx)
+    dy = min(dy, Ly - dy)
+    return dx + dy
+end
+
+function taxi_metrix_torus(x1::Tuple{Int, Int}, x2::Tuple{Int, Int}, Lx, Ly)
+    return taxi_metrix_torus(x1[1], x1[2], x2[1], x2[2], Lx, Ly)
+end
+
+function euclidean_metrix_torus(x1, y1, x2, y2, Lx, Ly)
+    dx = abs(x1 - x2)
+    dy = abs(y1 - y2)
+    dx = min(dx, Lx - dx)
+    dy = min(dy, Ly - dy)
+    return sqrt(dx^2 + dy^2)
+end
+
+function euclidean_metrix_torus(x1::Tuple{Int, Int}, x2::Tuple{Int, Int}, Lx, Ly)
+    return euclidean_metrix_torus(x1[1], x1[2], x2[1], x2[2], Lx, Ly)
+end
+
+function massage_the_zess_corr(corr_mat, system, n_t)
+    """Does the time average and the distance average of the correlation matrix in the taxi cab metric on a torus.
+    """
+    L = system.L
+    
+    all_r = []
+    for i = 1:L
+        for j = 1:L
+            x_i = i - 1
+            y_i = j - 1
+            push!(all_r, taxi_metrix_torus((0, 0), (x_i, y_i), L, L))
+        end
+    end
+
+    r_max, _ = findmax(all_r)
+    plot_x = [0:r_max]
+
+    norm_y = zeros(Float64, r_max + 1)
+    for i = 1:L
+        for j = 1:L
+            x_i = i - 1
+            y_i = j - 1
+            norm_y[taxi_metrix_torus((0, 0), (x_i, y_i), L, L) + 1] += 1
+        end
+    end
+
+    corr_mat_time_avr = zeros(Float64, L, L)
+    for t_index in 1:n_t
+        corr_mat_time_avr += corr_mat[t_index, :, :]
+    end
+    
+    plot_y = zeros(Float64, r_max + 1)
+    for i = 1:L
+        for j = 1:L
+            x_i = i - 1
+            y_i = j - 1
+            plot_y[taxi_metrix_torus((0, 0), (x_i, y_i), L, L) + 1] += corr_mat_time_avr[i, j]/n_t
+        end
+    end
+
+    return plot_x, plot_y ./ norm_y
+end
