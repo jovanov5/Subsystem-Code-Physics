@@ -50,11 +50,8 @@ function main(L::Integer, d::Integer, p_f::Float64, p_b::Float64, p_fe::Float64,
 
     if debug == 1
 
-        # Debug: Plot EE vs cut for the last time
-        p = plot(subdiv_array, EE_cut_array[end, :], xlabel="Cut", ylabel="EE", marker=:circle)
-        savefig(p, dirpath*"/data/debug-out/test_plot_1.pdf")
+        println("Debug mode is on!")
 
-        save_data_prefix = "debug-out/"
     end
 
     p_tc = 1 - p_f - p_b - p_fe; # Defines the measuremnt dynamics!
@@ -119,5 +116,5 @@ else
     debug = 0
 end
 
-main(L, d, p_f, p_b, p_fe, t_mmt, exp_index, debug);
+@time main(L, d, p_f, p_b, p_fe, t_mmt, exp_index, debug);
 

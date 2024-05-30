@@ -21,7 +21,7 @@ dir_path = @__DIR__
 jul_path = Sys.BINDIR
 
 # Define the number of iterations for the for loop
-L_arr = [24, 30, 36, 42, 48, 54, 60, 66]
+# L_arr = [24, 30, 36, 42, 48, 54, 60, 66]
 L_arr = [24, 30]
 d = 3
 
@@ -65,7 +65,7 @@ for exp_index in 1:number_of_experiments
         "t_mmt" => t_mmt,
         "exp_index" => exp_index
     )
-    open("$(dir_path)/data/args/argfile_exp:$(exp_index).json", "w") do io
+    open("$(dir_path)/data_z/args/argfile_exp:$(exp_index).json", "w") do io
         JSON3.pretty(io, arg_dict)
     end
 end

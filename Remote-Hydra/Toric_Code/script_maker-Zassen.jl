@@ -9,7 +9,7 @@ jul_path = Sys.BINDIR
 file = open(file_path, "w")
 
 # Get all JSONs
-Files = glob("*.json", "$(dir_path)/data/args")
+Files = glob("*.json", "$(dir_path)/data_z/args")
 
 # Generate the lines for the .sh file
 for arg_file in Files

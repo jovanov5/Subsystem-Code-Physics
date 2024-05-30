@@ -78,18 +78,22 @@ function main(L::Integer, d::Integer, p_f::Float64, p_b::Float64, t_mmt::Array{I
         # Debug: Plot the boson corr
         plot_x, plot_y = massage_the_zess_corr(Boson_Boson, system, n_t)
         p = plot(plot_x, plot_y)
-        savefig(p, dirpath*"/data/debug-out/test_plot_1.pdf")
+        savefig(p, dirpath*"/data_z/debug-out/test_plot_1.pdf")
 
         # Debug: Plot the fermion corr
         plot_x, plot_y = massage_the_zess_corr(Fermion_Fermion, system, n_t)
         p = plot(plot_x, plot_y)
-        savefig(p, dirpath*"/data/debug-out/test_plot_2.pdf")
+        savefig(p, dirpath*"/data_z/debug-out/test_plot_2.pdf")
+
+        # Debug: Plot EE vs cut for the last time
+        p = plot(subdiv_array, EE_cut_array[end, :], xlabel="Cut", ylabel="EE", marker=:circle)
+        savefig(p, dirpath*"/data_z/debug-out/test_plot_3.pdf")
 
         save_data_prefix = "debug-out/"
     end
 
     # Save the data!
-    outfname = dirpath*"/data/$(save_data_prefix)TEE_exp:$(exp_index).h5"
+    outfname = dirpath*"/data_z/$(save_data_prefix)TEE_exp:$(exp_index).h5"
     # write output to hdf5
     h5open(outfname, "w") do outfile
         write(outfile, "filename", filename)
@@ -127,5 +131,5 @@ else
     debug = 0
 end
 
-main(L, d, p_f, p_b, t_mmt, exp_index, debug);
+@time main(L, d, p_f, p_b, t_mmt, exp_index, debug);
 
