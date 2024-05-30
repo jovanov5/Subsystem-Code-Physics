@@ -16,14 +16,14 @@ include("$(dep_path)ModelRuns.jl")
 include("$(dep_path)HelperTools.jl")
 include("$(dep_path)Iterators.jl");
 
-function main(L::Integer, d::Integer, p_f::Float64, p_b::Float64, t_mmt::Array{Int}, exp_index::Integer, debug::Int)
+function main(L::Integer, d::Integer, p_f::Float64, p_b::Float64, p_fe::Float64, t_mmt::Array{Int}, exp_index::Integer, debug::Int)
     """ This is the main function on terminal call.
         The simulation is of Toric Code and we try and measure the Boson and Fermion with some probabilities.
         The main measure is the Zassenhausen correlator of boson-boson and fermion-fermion.
         d is not used because TEE is not being measured, included for compatibility.
     """
 
-    description = "Single Points in the Phase Diagram, Zassenhausen fermi-fermi and bose-bose correlation function."
+    description = "Single Points in the Phase Diagram, TEE and EE cut."
     system = Init_EdgeSquareLattice_KitaevDoNuT(L, d);
     sys_type = "Init_EdgeSquareLattice_KitaevDoNuT";
     dirpath = @__DIR__;
@@ -32,11 +32,9 @@ function main(L::Integer, d::Integer, p_f::Float64, p_b::Float64, t_mmt::Array{I
     subdiv_array = get_subdiv_array(L, "all");
     n_subdiv = length(subdiv_array);
 
-    Boson_Boson = zeros(Int, n_t, L, L);
-    Fermion_Fermion = zeros(Int, n_t, L, L);
     EE_cut_array  = zeros(Int, n_t, n_subdiv);
     TEE_array = zeros(Int, n_t);
-
+    
     println("filename: ", filename);
     println("description: ", description);
     println("L: ", L);
@@ -49,11 +47,8 @@ function main(L::Integer, d::Integer, p_f::Float64, p_b::Float64, t_mmt::Array{I
     println("subdiv_array: ", subdiv_array);
     println("exp_index: ", exp_index);
 
-    fermion_deformator = get_f_deformator(system);
-    boson_deformator = get_e_deformator(system);
-
-    p_tc = 1 - p_f - p_b; # Defines the measuremnt dynamics!
-    stab_distro = Categorical([p_tc/2, p_tc/2, p_b, 0, p_f]);
+    p_tc = 1 - p_f - p_b - p_fe; # Defines the measuremnt dynamics!
+    stab_distro = Categorical([p_tc/2, p_tc/2, p_b, 0, p_f, p_fe]);
     state = toric_code_GS(system); # Get the pure TC ground state as the initial state
 
     t_old = 0;
@@ -61,8 +56,6 @@ function main(L::Integer, d::Integer, p_f::Float64, p_b::Float64, t_mmt::Array{I
         t_evol = t_mmt[t_index] - t_old;
         t_old = t_mmt[t_index];
         state = iterate_measurements_only_fast!(state, system, () -> toric_code(system, stab_distro), t_evol)
-        Boson_Boson[t_index, :, :] = general_zassenhausen_correlator(state, system, get_e_reprentative, boson_deformator);
-        Fermion_Fermion[t_index, :, :] = general_zassenhausen_correlator(state, system, get_f_reprentative, fermion_deformator);
         TEE_array[t_index] = entanglement_entropy_topo(state, system)
         EE_cut_array[t_index, :] = entanglement_entropy_cut(state, system, subdiv_array)
     end
@@ -72,15 +65,9 @@ function main(L::Integer, d::Integer, p_f::Float64, p_b::Float64, t_mmt::Array{I
 
         println("Debug mode is on!")
 
-        # Debug: Plot the boson corr
-        plot_x, plot_y = massage_the_zess_corr(Boson_Boson, system, n_t)
-        p = plot(plot_x, plot_y)
+        # Debug: Plot EE vs cut for the last time
+        p = plot(subdiv_array, EE_cut_array[end, :], xlabel="Cut", ylabel="EE", marker=:circle)
         savefig(p, dirpath*"/data/debug-out/test_plot_1.pdf")
-
-        # Debug: Plot the fermion corr
-        plot_x, plot_y = massage_the_zess_corr(Fermion_Fermion, system, n_t)
-        p = plot(plot_x, plot_y)
-        savefig(p, dirpath*"/data/debug-out/test_plot_2.pdf")
 
         save_data_prefix = "debug-out/"
     end
@@ -115,6 +102,7 @@ L = Int(arg_dict["L"])
 d = Int(arg_dict["d"])
 p_f = Float64(arg_dict["p_f"])
 p_b = Float64(arg_dict["p_b"])
+p_fe = Float64(arg_dict["p_fe"]) # Stabiliser for the fermionic end-points!
 t_mmt = Array{Int}(arg_dict["t_mmt"])
 exp_index = Int(arg_dict["exp_index"])
 
@@ -124,5 +112,5 @@ else
     debug = 0
 end
 
-main(L, d, p_f, p_b, t_mmt, exp_index, debug);
+main(L, d, p_f, p_b, p_fe, t_mmt, exp_index, debug);
 

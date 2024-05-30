@@ -22,6 +22,7 @@ function main(L::Integer, d::Integer, p_f_arr::Array{Float64}, p_b_arr::Array{Fl
         The main measure is the TEE with a ceratin geometry (Kiatev Donut). 
     """
 
+    description = "All Points in the Phase Diagram triangle, TEE and EE cut."
     system = Init_EdgeSquareLattice_KitaevDoNuT(L, d);
     sys_type = "Init_EdgeSquareLattice_KitaevDoNuT"
     # simulation = SimulationTime(t_final, t_mmt);
@@ -41,6 +42,7 @@ function main(L::Integer, d::Integer, p_f_arr::Array{Float64}, p_b_arr::Array{Fl
     EE_cut_array  = fill(NaN, n_t, n_pf, n_pb, n_subdiv)
 
     println("filename: ", filename)
+    println("description: ", description)
     println("L: ", L)
     println("d: ", d)
     println("sys_type: ", sys_type)
@@ -95,6 +97,7 @@ function main(L::Integer, d::Integer, p_f_arr::Array{Float64}, p_b_arr::Array{Fl
     # write output to hdf5
     h5open(outfname, "w") do outfile
         write(outfile, "filename", filename)
+        write(outfile, "description", description)
         write(outfile, "L", L)
         write(outfile, "d", d)
         write(outfile, "sys_type", sys_type)
@@ -106,7 +109,7 @@ function main(L::Integer, d::Integer, p_f_arr::Array{Float64}, p_b_arr::Array{Fl
         write(outfile, "TEE", TEE_array)
         write(outfile, "EE_cut", EE_cut_array)
     end
-    return TEE_array
+    return "done"
 end
 
 # Parse the arguments
