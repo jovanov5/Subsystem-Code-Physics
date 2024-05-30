@@ -42,10 +42,20 @@ function main(L::Integer, d::Integer, p_f::Float64, p_b::Float64, p_fe::Float64,
     println("sys_type: ", sys_type);
     println("p_f: ", p_f);
     println("p_b: ", p_b);
+    println("p_fe: ", p_fe)
     println("n_t: ", n_t);
     # println("t_mmt: ", t_mmt);
     println("subdiv_array: ", subdiv_array);
     println("exp_index: ", exp_index);
+
+    if debug == 1
+
+        # Debug: Plot EE vs cut for the last time
+        p = plot(subdiv_array, EE_cut_array[end, :], xlabel="Cut", ylabel="EE", marker=:circle)
+        savefig(p, dirpath*"/data/debug-out/test_plot_1.pdf")
+
+        save_data_prefix = "debug-out/"
+    end
 
     p_tc = 1 - p_f - p_b - p_fe; # Defines the measuremnt dynamics!
     stab_distro = Categorical([p_tc/2, p_tc/2, p_b, 0, p_f, p_fe]);
@@ -62,8 +72,6 @@ function main(L::Integer, d::Integer, p_f::Float64, p_b::Float64, p_fe::Float64,
 
     save_data_prefix = "out/"
     if debug == 1
-
-        println("Debug mode is on!")
 
         # Debug: Plot EE vs cut for the last time
         p = plot(subdiv_array, EE_cut_array[end, :], xlabel="Cut", ylabel="EE", marker=:circle)
@@ -83,6 +91,7 @@ function main(L::Integer, d::Integer, p_f::Float64, p_b::Float64, p_fe::Float64,
         write(outfile, "sys_type", sys_type)
         write(outfile, "p_f", p_f)
         write(outfile, "p_b", p_b)
+        write(outfile, "p_fe", p_fe)
         write(outfile, "t_mmt", t_mmt)
         write(outfile, "exp_index", exp_index)
         write(outfile, "TEE", TEE_array)

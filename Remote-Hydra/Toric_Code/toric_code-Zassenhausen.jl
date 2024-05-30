@@ -48,6 +48,11 @@ function main(L::Integer, d::Integer, p_f::Float64, p_b::Float64, t_mmt::Array{I
     # println("t_mmt: ", t_mmt);
     println("subdiv_array: ", subdiv_array);
     println("exp_index: ", exp_index);
+    if debug == 1
+
+        println("Debug mode is on!")
+
+    end
 
     fermion_deformator = get_f_deformator(system);
     boson_deformator = get_e_deformator(system);
@@ -69,9 +74,7 @@ function main(L::Integer, d::Integer, p_f::Float64, p_b::Float64, t_mmt::Array{I
 
     save_data_prefix = "out/"
     if debug == 1
-
-        println("Debug mode is on!")
-
+        
         # Debug: Plot the boson corr
         plot_x, plot_y = massage_the_zess_corr(Boson_Boson, system, n_t)
         p = plot(plot_x, plot_y)

@@ -54,6 +54,12 @@ function main(L::Integer, d::Integer, p_f_arr::Array{Float64}, p_b_arr::Array{Fl
     # println("TEE: ", TEE_array)
     # println("EE_cut: ", EE_cut_array)
 
+    if debug == 1
+
+        println("Debug mode is on!")
+
+    end
+
     # Threads.@threads for loop_index in 1:(n_pf * n_pb)
     for loop_index in 1:(n_pf * n_pb)
         Indices = all_p_indices[loop_index]
@@ -78,9 +84,7 @@ function main(L::Integer, d::Integer, p_f_arr::Array{Float64}, p_b_arr::Array{Fl
 
     save_data_prefix = "out/"
     if debug == 1
-
-        println("Debug mode is on!")
-
+        
         # Debug: Plot EE vs cut for the first p_f and p_b and last time
         p = plot(subdiv_array, EE_cut_array[end, 1, 1, :], xlabel="Cut", ylabel="EE", marker=:circle)
         savefig(p, dirpath*"/data/debug-out/test_plot_1.pdf")
