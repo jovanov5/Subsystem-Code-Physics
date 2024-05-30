@@ -85,8 +85,6 @@ function main(L::Integer, d::Integer, p_f::Float64, p_b::Float64, p_fe::Float64,
         write(outfile, "p_b", p_b)
         write(outfile, "t_mmt", t_mmt)
         write(outfile, "exp_index", exp_index)
-        write(outfile, "Boson_Boson", Boson_Boson)
-        write(outfile, "Fermion_Fermion", Fermion_Fermion)
         write(outfile, "TEE", TEE_array)
         write(outfile, "EE_cut", EE_cut_array)
     end

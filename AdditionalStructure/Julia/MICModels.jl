@@ -65,30 +65,30 @@ function toric_code(system::EdgeSquareLattice, stab_type_dist::DiscreteNonParame
     end
 end
 
-function toric_code_fermi_stab(system::EdgeSquareLattice, stab_type_dist::DiscreteNonParametric) # This is the MAIN model function!
-    """this defines the TC model. For any other (qubit) model changing this function should in principle suffice.
-    here I have added an element of the TC stabiliser group that commutes with fermionic end points
-    this stabiliser the fermionic critical phase"""
+# function toric_code_fermi_stab(system::EdgeSquareLattice, stab_type_dist::DiscreteNonParametric) # This is the MAIN model function!
+#     """this defines the TC model. For any other (qubit) model changing this function should in principle suffice.
+#     here I have added an element of the TC stabiliser group that commutes with fermionic end points
+#     this stabiliser the fermionic critical phase"""
 
-    ncells = system.cell_num
+#     ncells = system.cell_num
 
-    # get a random cell to measure
-    # note that cell going from 0 to ncells-1 is against typical julia convention, which indexes starting from 1
-    random_cell = rand(0:(ncells-1)) 
+#     # get a random cell to measure
+#     # note that cell going from 0 to ncells-1 is against typical julia convention, which indexes starting from 1
+#     random_cell = rand(0:(ncells-1)) 
 
 
-    # get a random pauli type (not the conversion since rand(pauli_type_dist) generates a number between 1 and 3)
-    stab_type::StabTypeTC = StabTypeTC(rand(stab_type_dist));
+#     # get a random pauli type (not the conversion since rand(pauli_type_dist) generates a number between 1 and 3)
+#     stab_type::StabTypeTC = StabTypeTC(rand(stab_type_dist));
     
-    # now return the respective pauli operator
-    if stab_type == Star || stab_type == Plaquette 
-        return tc_stab(stab_type, random_cell, system)
-    elseif stab_type == FermionEnd # this is a new stabiliser that commutes with fermionic end points
-        return tc_stab(Star, random_cell, system)*tc_stab(Plaquette, random_cell, system)
-    else
-        return ribs_stab(stab_type, random_cell, system)
-    end
-end
+#     # now return the respective pauli operator
+#     if stab_type == Star || stab_type == Plaquette 
+#         return tc_stab(stab_type, random_cell, system)
+#     elseif stab_type == FermionEnd # this is a new stabiliser that commutes with fermionic end points
+#         return tc_stab(Star, random_cell, system)*tc_stab(Plaquette, random_cell, system)
+#     else
+#         return ribs_stab(stab_type, random_cell, system)
+#     end
+# end
 
 function kitaev_code(system::VertexHoneyLattice, stab_type_dist::DiscreteNonParametric)
     """this defines the kitaev model. For any other (qubit) model changing this function should in principle suffice."""
