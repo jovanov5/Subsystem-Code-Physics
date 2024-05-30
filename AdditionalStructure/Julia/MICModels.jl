@@ -15,6 +15,7 @@ end
     Electric = 3
     Magnetic = 4
     Fermionic = 5
+    FermionEnd = 6 # New Stabiliser, commutes with fermionic end points, this addition needs to be made backwards compatible!
 end
 
 @enum StabTypeHC begin
@@ -34,7 +35,7 @@ end
 
 # Some Models: Each functions most likely work on each a specific type of system.
 
-function toric_code(system::EdgeSquareLattice, stab_type_dist::DiscreteNonParametric)
+function toric_code(system::EdgeSquareLattice, stab_type_dist::DiscreteNonParametric) # This is the MAIN model function!
     """this defines the TC model. For any other (qubit) model changing this function should in principle suffice."""
 
     ncells = system.cell_num
@@ -47,55 +48,47 @@ function toric_code(system::EdgeSquareLattice, stab_type_dist::DiscreteNonParame
     # get a random pauli type (not the conversion since rand(pauli_type_dist) generates a number between 1 and 3)
     stab_type::StabTypeTC = StabTypeTC(rand(stab_type_dist));
     
+    # # now return the respective pauli operator
+    # if stab_type == Star || stab_type == Plaquette 
+    #     return tc_stab(stab_type, random_cell, system)
+    # else
+    #     return ribs_stab(stab_type, random_cell, system)
+    # end
+
     # now return the respective pauli operator
     if stab_type == Star || stab_type == Plaquette 
         return tc_stab(stab_type, random_cell, system)
+    elseif stab_type == FermionEnd # this is a new stabiliser that commutes with fermionic end points
+        return tc_stab(Star, random_cell, system)*tc_stab(Plaquette, random_cell, system) # This is the new stabiliser! Backwards compatible, just supply bigger distro array!
     else
         return ribs_stab(stab_type, random_cell, system)
     end
 end
 
-function toric_code_GS(system::EdgeSquareLattice)
-    """this return one of the four coputational logic states.
-    At the moment it is only working for (0,0)"""
+# function toric_code_fermi_stab(system::EdgeSquareLattice, stab_type_dist::DiscreteNonParametric) # This is the MAIN model function!
+#     """this defines the TC model. For any other (qubit) model changing this function should in principle suffice.
+#     here I have added an element of the TC stabiliser group that commutes with fermionic end points
+#     this stabiliser the fermionic critical phase"""
 
-    nbits = system.nbits
-    state = z_polarised_state(system)
-    L = system.L
+#     ncells = system.cell_num
 
-    for cell_index = 0:L*L-1
-        state, anticom_index, result = project!(state, tc_stab(Star, cell_index, system))
-        # See how to force the projection result!
-    end
-
-    for cell_index = 0:L*L-1
-        state, anticom_index, result = project!(state, tc_stab(Plaquette, cell_index, system)) 
-        # See how to force the projection result!
-    end
+#     # get a random cell to measure
+#     # note that cell going from 0 to ncells-1 is against typical julia convention, which indexes starting from 1
+#     random_cell = rand(0:(ncells-1)) 
 
 
-    return state
-end
-
-function toric_code_GS_MIXED(system::EdgeSquareLattice)
-    """this return fully mixed state in the GS manifold."""
-
-    nbits = system.nbits
-    state = maximally_mixed_state(system)
-    L = system.L
-
-    for cell_index = 0:L*L-1
-        state, anticom_index, result = project!(state, tc_stab(Star, cell_index, system)) 
-        # See how to force the projection result!
-    end
-
-    for cell_index = 0:L*L-1
-        state, anticom_index, result = project!(state, tc_stab(Plaquette, cell_index, system)) 
-        # See how to force the projection result!
-    end
-
-    return state
-end
+#     # get a random pauli type (not the conversion since rand(pauli_type_dist) generates a number between 1 and 3)
+#     stab_type::StabTypeTC = StabTypeTC(rand(stab_type_dist));
+    
+#     # now return the respective pauli operator
+#     if stab_type == Star || stab_type == Plaquette 
+#         return tc_stab(stab_type, random_cell, system)
+#     elseif stab_type == FermionEnd # this is a new stabiliser that commutes with fermionic end points
+#         return tc_stab(Star, random_cell, system)*tc_stab(Plaquette, random_cell, system)
+#     else
+#         return ribs_stab(stab_type, random_cell, system)
+#     end
+# end
 
 function kitaev_code(system::VertexHoneyLattice, stab_type_dist::DiscreteNonParametric)
     """this defines the kitaev model. For any other (qubit) model changing this function should in principle suffice."""
@@ -143,6 +136,55 @@ function classical_gauge_code(system::VertexSquareLattice)
     # now return the respective pauli operator
     return classical_gauge_stab(random_cell, system)
 end
+
+#
+#
+####################################################################################################################################################
+
+# Grond state preps for some models!
+
+function toric_code_GS(system::EdgeSquareLattice)
+    """this return one of the four coputational logic states.
+    At the moment it is only working for (0,0)"""
+
+    nbits = system.nbits
+    state = z_polarised_state(system)
+    L = system.L
+
+    for cell_index = 0:L*L-1
+        state, anticom_index, result = project!(state, tc_stab(Star, cell_index, system))
+        # See how to force the projection result!
+    end
+
+    for cell_index = 0:L*L-1
+        state, anticom_index, result = project!(state, tc_stab(Plaquette, cell_index, system)) 
+        # See how to force the projection result!
+    end
+
+
+    return state
+end
+
+function toric_code_GS_MIXED(system::EdgeSquareLattice)
+    """this return fully mixed state in the GS manifold."""
+
+    nbits = system.nbits
+    state = maximally_mixed_state(system)
+    L = system.L
+
+    for cell_index = 0:L*L-1
+        state, anticom_index, result = project!(state, tc_stab(Star, cell_index, system)) 
+        # See how to force the projection result!
+    end
+
+    for cell_index = 0:L*L-1
+        state, anticom_index, result = project!(state, tc_stab(Plaquette, cell_index, system)) 
+        # See how to force the projection result!
+    end
+
+    return state
+end
+
 
 #
 #

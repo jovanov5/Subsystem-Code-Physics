@@ -7,7 +7,7 @@ using Plots # for plotting
 using LinearAlgebra # some useful matrices etc.
 using Missings # for missing values
 using JSON3 # for reading the JSON file
-dep_path = "../AdditionalStructure/Julia/"
+dep_path = "../../AdditionalStructure/Julia/"
 include("$(dep_path)NewTypes.jl")
 include("$(dep_path)BitStringOps.jl")
 include("$(dep_path)Measurements.jl")
@@ -22,6 +22,7 @@ function main(L::Integer, d::Integer, p_f_arr::Array{Float64}, p_b_arr::Array{Fl
         The main measure is the TEE with a ceratin geometry (Kiatev Donut). 
     """
 
+    description = "All Points in the Phase Diagram triangle, TEE and EE cut."
     system = Init_EdgeSquareLattice_KitaevDoNuT(L, d);
     sys_type = "Init_EdgeSquareLattice_KitaevDoNuT"
     # simulation = SimulationTime(t_final, t_mmt);
@@ -41,6 +42,7 @@ function main(L::Integer, d::Integer, p_f_arr::Array{Float64}, p_b_arr::Array{Fl
     EE_cut_array  = fill(NaN, n_t, n_pf, n_pb, n_subdiv)
 
     println("filename: ", filename)
+    println("description: ", description)
     println("L: ", L)
     println("d: ", d)
     println("sys_type: ", sys_type)
@@ -51,6 +53,12 @@ function main(L::Integer, d::Integer, p_f_arr::Array{Float64}, p_b_arr::Array{Fl
     println("exp_index: ", exp_index)
     # println("TEE: ", TEE_array)
     # println("EE_cut: ", EE_cut_array)
+
+    if debug == 1
+
+        println("Debug mode is on!")
+
+    end
 
     # Threads.@threads for loop_index in 1:(n_pf * n_pb)
     for loop_index in 1:(n_pf * n_pb)
@@ -76,9 +84,7 @@ function main(L::Integer, d::Integer, p_f_arr::Array{Float64}, p_b_arr::Array{Fl
 
     save_data_prefix = "out/"
     if debug == 1
-
-        println("Debug mode is on!")
-
+        
         # Debug: Plot EE vs cut for the first p_f and p_b and last time
         p = plot(subdiv_array, EE_cut_array[end, 1, 1, :], xlabel="Cut", ylabel="EE", marker=:circle)
         savefig(p, dirpath*"/data/debug-out/test_plot_1.pdf")
@@ -95,6 +101,7 @@ function main(L::Integer, d::Integer, p_f_arr::Array{Float64}, p_b_arr::Array{Fl
     # write output to hdf5
     h5open(outfname, "w") do outfile
         write(outfile, "filename", filename)
+        write(outfile, "description", description)
         write(outfile, "L", L)
         write(outfile, "d", d)
         write(outfile, "sys_type", sys_type)
@@ -106,7 +113,7 @@ function main(L::Integer, d::Integer, p_f_arr::Array{Float64}, p_b_arr::Array{Fl
         write(outfile, "TEE", TEE_array)
         write(outfile, "EE_cut", EE_cut_array)
     end
-    return TEE_array
+    return "done"
 end
 
 # Parse the arguments

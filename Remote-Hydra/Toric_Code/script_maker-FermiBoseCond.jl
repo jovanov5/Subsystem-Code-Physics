@@ -2,7 +2,7 @@ using Glob
 
 # Define the file path
 dir_path = @__DIR__
-file_path = dir_path*"/new_queue_script.sh"
+file_path = dir_path*"/queue_script-FermiBoseCond.sh"
 jul_path = Sys.BINDIR
 
 # Open the file in write mode
