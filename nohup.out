@@ -1,0 +1,11 @@
+filename: /home/j/jovanovic/GitHub/Subsystem-Code-Physics/Remote-Hydra/Toric_Code/toric_code-Zassenhausen.jl
+description: Single Points in the Phase Diagram, Zassenhausen fermi-fermi and bose-bose correlation function.
+L: 24
+d: 3
+sys_type: Init_EdgeSquareLattice_KitaevDoNuT
+p_f: 0.55
+p_b: 0.0
+n_t: 2
+subdiv_array: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
+exp_index: 1
+13365.580348 seconds (2.89 G allocations: 4.411 TiB, 7.71% gc time, 0.07% compilation time: <1% of which was recompilation)
