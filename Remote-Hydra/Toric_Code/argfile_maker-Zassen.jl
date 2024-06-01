@@ -21,8 +21,8 @@ dir_path = @__DIR__
 jul_path = Sys.BINDIR
 
 # Define the number of iterations for the for loop
-L_arr = [24, 30, 36, 42, 48, 54, 60, 66]
-L_arr = [24, 30]
+L_arr = [30, 42, 54]
+# L_arr = [24, 30]
 d = 3
 
 # # p_f_max = 1
@@ -33,15 +33,16 @@ d = 3
 # # n_pb = 21
 # p_b_arr = [0.0, 0.1, 0.35]
 
-p_all_arr = [(0.55, 0.0), (0.55, 0.1)] # Defined as list of doubles (p_f, p_b)
+# p_all_arr = [(0.55, 0.0), (0.55, 0.1), (0.2, 0.21), (0.0, 0.15)] # Defined as list of doubles (p_f, p_b)
+p_all_arr = [(0.55, 0.0), (0.2, 0.21), (0.0, 0.15)]
 
 # t_final = Int(2e4) # 1e5
 # n_t = 5 # 6
-t_mmt = Array{Int}(20:20:40).+50
+t_mmt = Array{Int}(20:20:200).+50
 
 n_subdiv = "all"
 
-number_of_repetitions = 1
+number_of_repetitions = 100
 number_of_experiments = number_of_repetitions*length(L_arr)*length(p_all_arr)
 
 # Generate the arg files
@@ -65,7 +66,7 @@ for exp_index in 1:number_of_experiments
         "t_mmt" => t_mmt,
         "exp_index" => exp_index
     )
-    open("$(dir_path)/data/args/argfile_exp:$(exp_index).json", "w") do io
+    open("$(dir_path)/data_z/args/argfile_exp:$(exp_index).json", "w") do io
         JSON3.pretty(io, arg_dict)
     end
 end
