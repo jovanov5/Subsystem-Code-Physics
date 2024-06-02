@@ -25,15 +25,7 @@ L_arr = [30, 42, 54, 66]
 # L_arr = [24, 30]
 d = 3
 
-# # p_f_max = 1
-# # n_pf = 21
-# p_f_arr = [0.55]
-
-# # p_b_max = 1
-# # n_pb = 21
-# p_b_arr = [0.0, 0.1, 0.35]
-
-p_all_arr = [(0.55, 0.0, 0.0), (0.55, 0.1, 0.0), (0.55, 0.1, 0.1), (0.55, 0.2, 0.1)] # Defined as list of doubles (p_f, p_b, p_fe)
+p_all_arr = [(0.55, 0.05, 0.1), (0.55, 0.025, 0.1)] # Defined as list of doubles (p_f, p_b, p_fe)
 
 # t_final = Int(2e4) # 1e5
 # n_t = 5 # 6
