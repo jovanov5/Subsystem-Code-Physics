@@ -11,8 +11,8 @@ file = open(file_path, "w")
 # Get all JSONs
 Files = glob("*.json", "$(dir_path)/data_z/args")
 
-memory = 4 # how many gigs
-time = 1 # how many days
+memory = 16 # how many gigs
+time = 3 # how many days
 
 # Generate the lines for the .sh file
 for arg_file in Files
