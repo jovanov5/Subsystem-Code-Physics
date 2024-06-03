@@ -1,0 +1,25 @@
+=========================================================
+Job submitted date = Sun 2 Jun 11:20:34 BST 2024
+1 nodes ( 1 processes per node )
+1 hosts used: comp73
+Job output begins
+-----------------
+
+filename: /mnt/users/jovanovic/GitHub/Subsystem-Code-Physics/Remote-Hydra/Toric_Code/toric_code-SinglePointPD.jl
+description: Single Points in the Phase Diagram, TEE and EE cut.
+L: 30
+d: 3
+sys_type: Init_EdgeSquareLattice_KitaevDoNuT
+p_f: 0.55
+p_b: 0.025
+p_fe: 0.1
+n_t: 100
+subdiv_array: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]
+exp_index: 146
+367.111375 seconds (48.16 M allocations: 22.552 GiB, 0.44% gc time, 2.18% compilation time: <1% of which was recompilation)
+---------------
+Job output ends
+=========================================================
+PBS job: finished date = Mon 3 Jun 03:50:45 BST 2024
+Total run time : 0 Hours 6 Minutes 52 Seconds
+=========================================================
