@@ -11,13 +11,14 @@ file = open(file_path, "w")
 # Get all JSONs
 Files = glob("*.json", "$(dir_path)/data_z/args")
 
-memory = 8 # how many gigs
+memory = 6 # how many gigs
 time = 3 # how many days
-cores = 1 
+comment = "2-pt fn - 3 days"
+cores = 1 # -n 4x4 -s : need to figure it out!!!!
 
 # Generate the lines for the .sh file
 for arg_file in Files
-    line = "addqueue -c \"$(time) day\" -m $(memory) -n $(cores) $(jul_path)/julia $(dir_path)/toric_code-Zassenhausen.jl \"$(arg_file)\""
+    line = "addqueue -c \"$(comment)\" -m $(memory) $(jul_path)/julia $(dir_path)/toric_code-Zassenhausen.jl \"$(arg_file)\""
     println(file, line)
 end
 
