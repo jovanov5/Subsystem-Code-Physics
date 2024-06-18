@@ -23,11 +23,11 @@ jul_path = Sys.BINDIR
 # Define the number of iterations for the for loop
 # L_arr = [30, 42, 54]
 # L_arr = [24, 30]
-L_arr = [30, 42]
+L_arr = [30]
 d = 3
 
 # p_all_arr = [(0.55, 0.0), (0.55, 0.1), (0.2, 0.21), (0.0, 0.15)] # Defined as list of doubles (p_f, p_b)
-p_all_arr = [(0.55, 0.0), (0.2, 0.21), (0.0, 0.15)]
+p_all_arr = [(0.55, 0.05)]
 
 # t_final = Int(2e4) # 1e5
 # n_t = 5 # 6
@@ -37,10 +37,10 @@ n_subdiv = "all"
 
 number_of_repetitions = 100
 number_of_experiments = number_of_repetitions*length(L_arr)*length(p_all_arr)
+offset = 600
 
 # Generate the arg files
-for exp_index in 1:number_of_experiments
-
+for exp_index in (1 + offset):(number_of_experiments + offset)
     usable_exp_index = exp_index - 1
     usable_L_index = mod(div(usable_exp_index, length(p_all_arr)), length(L_arr))
     usable_p_index = mod(usable_exp_index, length(p_all_arr))
