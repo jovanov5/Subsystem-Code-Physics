@@ -23,7 +23,7 @@ jul_path = Sys.BINDIR
 # Define the number of iterations for the for loop
 # L_arr = [30, 42, 54]
 # L_arr = [24, 30]
-L_arr = [30]
+L_arr = [15]
 d = 3
 
 # p_all_arr = [(0.55, 0.0), (0.55, 0.1), (0.2, 0.21), (0.0, 0.15)] # Defined as list of doubles (p_f, p_b)
