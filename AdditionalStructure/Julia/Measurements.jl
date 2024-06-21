@@ -101,7 +101,7 @@ function entanglement_entropy_cut(state::MixedDestabilizer, system, subdiv_array
     """this calculates the entanglement entropy along a cut of the state on a torus, using the anular subdivisions.
     state            : state to be examined.
     system           : system object that has knows everything!
-    n_sub            : number of subdivisions.
+    subdiv_array     : where to cut the system.
     """
 
     L = system.L
@@ -118,8 +118,25 @@ function entanglement_entropy_cut(state::MixedDestabilizer, system, subdiv_array
     return ee_array
 end
 
+function entanglement_entropy_half_cut(state::MixedDestabilizer, system)
+    """this calculates the entanglement entropy along a cut of the state on a torus, using the anular subdivisions, at the middle.
+    state            : state to be examined.
+    system           : system object that has knows everything!
+    """
+
+    L = system.L
+    sub_size = Int(round(L/2))
+    k = system.k
+    subsys_rande = sub_size*L*k
+    e = entanglement_entropy(state,     # state to compute entropy for
+            1:subsys_rande,       # subsystem as list of indices. Specifying full subsystem gives the van-neumann entropy
+            Val(:rref) # algorithm to use (see documentation)
+            )
+    return e
+end
+
 function general_zassenhausen_correlator(state::MixedDestabilizer, system, rep_funtion::Function, deformator)
-    """this calculates the represented correlator between two sites i and j of the state on a torus.
+    """this calculates the represented correlator between two sites (0, 0) and (all, all) of the state on a torus.
     state            : state to be examined.
     system           : system object that has knows everything!
     rep_funtion      : function that returns the representative string operator.
@@ -139,7 +156,7 @@ function general_zassenhausen_correlator(state::MixedDestabilizer, system, rep_f
                 corr_function[r_x+1, r_y+1] = 1
             else
                 rep = rep_funtion((r_x, r_y), system)
-                size_of_bff = 0
+                # size_of_bff = 0
                 dim_source, _ = zassenhausen_alg(rep, deformator, stabilizerview(state), nbits)
                 dim_norm, _ = zassenhausen_alg(deformator, stabilizerview(state), nbits)
                 corr_function[r_x+1, r_y+1] = Int(round(dim_source - dim_norm))
@@ -151,9 +168,36 @@ function general_zassenhausen_correlator(state::MixedDestabilizer, system, rep_f
 
 end
 
+function particular_zassenhausen_correlator(r_2::Tuple{Int, Int}, state::MixedDestabilizer, system, rep_funtion::Function, deformator)
+    """this calculates the represented correlator between two sites (0, 0) and (i, j) of the state on a torus.
+    r_2              : coordinate of the second site.
+    state            : state to be examined.
+    system           : system object that has knows everything!
+    rep_funtion      : function that returns the representative string operator.
+    deformator       : deformator to the representative
+    """
+
+    L = system.L
+    k = system.k
+    nbits = system.nbits
+    cell_num = system.cell_num
+
+    r_x = r_2[1]
+    r_y = r_2[2]
+
+    if r_x == 0 && r_y == 0
+        return 1
+    else
+        rep = rep_funtion((r_x, r_y), system)
+        # size_of_bff = 0
+        dim_source, _ = zassenhausen_alg(rep, deformator, stabilizerview(state), nbits)
+        dim_norm, _ = zassenhausen_alg(deformator, stabilizerview(state), nbits)
+        return Int(round(dim_source - dim_norm))
+    end
+end
 
 function get_e_reprentative(r_2::Tuple{Int, Int}, system)
-    """ This gets you a PauliOperator of one string connecting two e-tyope defects between sites (0,0) and r_2.
+    """ This gets you a PauliOperator of one string connecting two e-type defects between sites (0,0) and r_2.
     """
 
     nbits = system.nbits
@@ -172,8 +216,29 @@ function get_e_reprentative(r_2::Tuple{Int, Int}, system)
     return PauliOperator(0x0, X_op_list, Z_op_list)
 end
 
+function get_m_reprentative(r_2::Tuple{Int, Int}, system)
+    """ This gets you a PauliOperator of one string connecting two m-type defects between sites (0,0) and r_2.
+    """
+
+    nbits = system.nbits
+    L = system.L
+    Z_op_list = zeros(Bool, nbits)
+    X_op_list = zeros(Bool, nbits)
+
+    for cell_index = 0:r_2[1]-1
+        X_op_list[2*(cell_index + 1) + 1] = true
+    end
+
+    for cell_index = 0:r_2[2]-1
+        X_op_list[2*(L*(cell_index + 1) + r_2[1]) + 1 + 1] = true
+    end
+
+    return PauliOperator(0x0, X_op_list, Z_op_list)
+end
+
+
 function get_f_reprentative(r_2::Tuple{Int, Int}, system)
-    """ This gets you a PauliOperator of one string connecting two f-tyope defects between sites (0,0) and r_2.
+    """ This gets you a PauliOperator of one string connecting two f-type defects between sites (0,0) and r_2.
     """
 
     nbits = system.nbits
@@ -222,6 +287,37 @@ function get_e_deformator(system)
     push!(e_deformators, Z_loop_2) # Right Loop
 
     return e_deformators
+
+end
+
+function get_m_deformator(system)
+    nbits = system.nbits
+    L = system.L
+    m_deformators = []
+
+    for cell_index = 0:L*L-1
+        push!(m_deformators, tc_stab(Star, cell_index, system))
+    end
+
+    # The noncontractible loops are actually very important deformators.
+
+    Z_op_list = zeros(Bool, nbits)
+    X_op_list = zeros(Bool, nbits)
+    for cell_index = 0:L-1
+        X_op_list[2*cell_index+1] = true
+    end
+    X_loop_1 = PauliOperator(0x0, X_op_list, Z_op_list)
+    push!(m_deformators, X_loop_1) # Up Loop
+
+    Z_op_list = zeros(Bool, nbits)
+    X_op_list = zeros(Bool, nbits)
+    for cell_index = 0:L-1
+        X_op_list[2*L*cell_index+1+1] = true
+    end
+    X_loop_2 = PauliOperator(0x0, X_op_list, Z_op_list)
+    push!(m_deformators, X_loop_2) # Right Loop
+
+    return m_deformators
 
 end
 
