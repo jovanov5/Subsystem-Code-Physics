@@ -30,7 +30,7 @@ d = 3
 # p_all_arr = [(0.55, 0.0), (0.55, 0.1), (0.2, 0.21), (0.0, 0.15)] # Defined as list of doubles (p_f, p_b)
 # p_all_arr = [(0.55, 0.00), (0.00, 0.15), (0.20, 0.21)]
 p_all_arr = []
-N_pd = 21 # In total 861 points
+N_pd = 21 # In total 231 (861) points
 for i in 0:(N_pd-1)
     p_f = 1 - i/(N_pd-1)
     for j in 0:i
