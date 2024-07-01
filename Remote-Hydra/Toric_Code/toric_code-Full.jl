@@ -41,6 +41,8 @@ function main(L::Integer, d::Integer, p_f::Float64, p_b::Float64, t_mmt::Array{I
     Other_Boson_Boson = zeros(Int, n_t);
     EE_cut_array  = zeros(Int, n_t); # This is now only a half system cut
     TEE_array = zeros(Int, n_t);
+    TEN_array = zeros(Float64, n_t); # This is the topological entanglement negativity, sometimes it way come up as a non-Int?
+    # Maybe, round it to an Int? It should be one, since it is a difference of ranks, and it is topological!
 
     println("filename: ", filename);
     println("description: ", description);
@@ -79,6 +81,7 @@ function main(L::Integer, d::Integer, p_f::Float64, p_b::Float64, t_mmt::Array{I
         Other_Boson_Boson[t_index] = particular_zassenhausen_correlator(r_2, state, system, get_m_reprentative, other_boson_deformator);
         Fermion_Fermion[t_index] = particular_zassenhausen_correlator(r_2, state, system, get_f_reprentative, fermion_deformator);
         TEE_array[t_index] = entanglement_entropy_topo(state, system)
+        TEN_array[t_index] = entanglement_negativity(state, system)
         EE_cut_array[t_index] = entanglement_entropy_half_cut(state, system)
     end
 
@@ -90,6 +93,7 @@ function main(L::Integer, d::Integer, p_f::Float64, p_b::Float64, t_mmt::Array{I
         println("Fermion_Fermion: ", Fermion_Fermion[end])
         println("Other_Boson_Boson: ", Other_Boson_Boson[end])
         println("TEE: ", TEE_array[end])
+        println("TEN: ", TEN_array[end])
         println("EE_cut_array: ", EE_cut_array[end])
 
         save_data_prefix = "debug-out/"
@@ -112,6 +116,7 @@ function main(L::Integer, d::Integer, p_f::Float64, p_b::Float64, t_mmt::Array{I
         write(outfile, "Fermion_Fermion", Fermion_Fermion)
         write(outfile, "Other_Boson_Boson", Other_Boson_Boson)
         write(outfile, "TEE", TEE_array)
+        write(outfile, "TEN", TEN_array)
         write(outfile, "EE_cut", EE_cut_array)
     end
     return "done"

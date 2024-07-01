@@ -35,6 +35,8 @@ for i in 0:(N_pd-1)
     p_f = 1 - i/(N_pd-1)
     for j in 0:i
         p_b = j/(N_pd-1)
+        p_f = round(p_f, digits=5)
+        p_b = round(p_b, digits=5)
         push!(p_all_arr, (p_f, p_b))
     end
 end
