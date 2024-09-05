@@ -1,14 +1,14 @@
 # Fdb version 4
-["bibtex main"] 1717518071.15097 "main.aux" "main.bbl" "main" 1717518071.97563 0
-  "./bibliography.bib" 1717513694 95 ec172433b0200ce52b7ed1f091fe3aca ""
-  "./mainNotes.bib" 1717518071.63387 104 4d8bb863c86f3d7b03a471e9d4707f34 ""
+["bibtex main"] 1723833529.12098 "main.aux" "main.bbl" "main" 1723833530.24253 0
+  "./bibliography.bib" 1720186789.09216 319209 78fe627e9dfadbf9c2aba108a9240e0f ""
+  "./mainNotes.bib" 1723833529.83415 104 4d8bb863c86f3d7b03a471e9d4707f34 ""
   "/usr/local/texlive/2024/texmf-dist/bibtex/bst/revtex/apsrev4-2.bst" 1601932770 69609 e9dea59f0e753ccda3ddc8f5806d846d ""
-  "main.aux" 1717518071.63315 608 79048c3a8e1719d84c41bfa4ff72ee3a "pdflatex"
+  "main.aux" 1723833529.83369 608 79048c3a8e1719d84c41bfa4ff72ee3a "pdflatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1717518071.24521 "/Users/jovanjovanovic/GitHub/Subsystem-Code-Physics/writeup/main.tex" "main.pdf" "main" 1717518071.97579 0
+["pdflatex"] 1723833529.34142 "/Users/jovanjovanovic/GitHub/Subsystem-Code-Physics/writeup/main.tex" "main.pdf" "main" 1723833530.2427 0
   "/Users/jovanjovanovic/GitHub/Subsystem-Code-Physics/writeup/main.tex" 1717518069.5633 2363 aa75588665977ed3468bb566bc9d2874 ""
   "/usr/local/texlive/2024/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2024/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm" 1136768653 1324 c910af8c371558dc20f2d7822f66fe64 ""
@@ -52,8 +52,8 @@
   "/usr/local/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1711115376.74127 5467645 128b85b7cde5f5edc5cb7f1dd7ff8736 ""
   "/usr/local/texlive/2024/texmf-var/web2c/pdftex/pdflatex.fmt" 1711115302 8221425 f73d92752d5ee145da6e50d719f085c3 ""
   "/usr/local/texlive/2024/texmf.cnf" 1710266656 577 e590dabc9e28c5b61546e15f63eebcdf ""
-  "main.aux" 1717518071.63315 608 79048c3a8e1719d84c41bfa4ff72ee3a "pdflatex"
-  "main.bbl" 1717518071.24369 2050 d2021969a7e876047bca30877ddcb667 "bibtex main"
+  "main.aux" 1723833529.83369 608 79048c3a8e1719d84c41bfa4ff72ee3a "pdflatex"
+  "main.bbl" 1723833529.32605 1980 28c19e8c34138b62d4af8c2d0ed844b0 "bibtex main"
   "main.tex" 1717518069.5633 2363 aa75588665977ed3468bb566bc9d2874 ""
   (generated)
   "main.aux"

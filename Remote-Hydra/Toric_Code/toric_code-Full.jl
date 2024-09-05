@@ -68,8 +68,10 @@ function main(L::Integer, d::Integer, p_f::Float64, p_b::Float64, t_mmt::Array{I
     r_y = Int(round(L/2));
     r_2 = (r_x, r_y);
 
-    p_tc = 1 - p_f - p_b; # Defines the measuremnt dynamics!
-    stab_distro = Categorical([p_tc/2, p_tc/2, p_b, 0, p_f]);
+    p_f_corr = max(0.0, p_f - 0.00001) # To avoid numerical errors
+    p_b_corr = max(0.0, p_b - 0.00001) # To avoid numerical errors
+    p_tc = 1 - p_f_corr - p_b_corr; # Defines the measuremnt dynamics! # Try to manually round half this if the fist fix does not work!
+    stab_distro = Categorical([p_tc/2, p_tc/2, p_b_corr, 0, p_f_corr]);
     state = toric_code_GS(system); # Get the pure TC ground state as the initial state
 
     t_old = 0;

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.3.22)  4 JUN 2024 17:21
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.3.22)  16 AUG 2024 19:38
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -258,10 +258,10 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 
  (./main.bbl
 
-LaTeX Warning: Reference `LastBibItem' on page 1 undefined on input line 10.
+LaTeX Warning: Reference `LastBibItem' on page 1 undefined on input line 9.
 
 
-Package natbib Warning: Empty `thebibliography' environment on input line 53.
+Package natbib Warning: Empty `thebibliography' environment on input line 52.
 
 ) [1{/usr/local/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] (./main.aux)
  ***********
@@ -274,15 +274,15 @@ LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 4704 strings out of 474116
- 65961 string characters out of 5743682
+ 4702 strings out of 474116
+ 65941 string characters out of 5743682
  1929187 words of memory out of 5000000
- 27052 multiletter control sequences out of 15000+600000
+ 27050 multiletter control sequences out of 15000+600000
  559626 words of font info for 41 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 71i,5n,79p,299b,189s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 71i,5n,79p,299b,179s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmti9.pfb>
-Output written on main.pdf (1 page, 65884 bytes).
+Output written on main.pdf (1 page, 66350 bytes).
 PDF statistics:
  33 PDF objects out of 1000 (max. 8388607)
  19 compressed objects within 1 object stream
