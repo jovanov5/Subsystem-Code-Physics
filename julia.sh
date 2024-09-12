@@ -1,6 +1,6 @@
 #!/bin/bash -l
 echo =========================================================   
-echo Job submitted  date = Mon  1 Jul 10:47:35 BST 2024      
+echo Job submitted  date = Thu  5 Sep 10:31:38 BST 2024      
 date_start=`date +%s`
 echo $SLURM_JOB_NUM_NODES nodes \( $SLURM_CPUS_ON_NODE processes per node \)        
 echo $SLURM_JOB_NUM_NODES hosts used: $SLURM_JOB_NODELIST      
