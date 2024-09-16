@@ -23,11 +23,11 @@ jul_path = Sys.BINDIR
 # Define the number of iterations for the for loop
 # L_arr = [30, 42, 54]
 # L_arr = [24, 30]
-L_arr = [15]
+L_arr = [10, 20, 40, 80]
 d = 3
 
 # p_all_arr = [(0.55, 0.0), (0.55, 0.1), (0.2, 0.21), (0.0, 0.15)] # Defined as list of doubles (p_f, p_b)
-p_all_arr = [(0.55, 0.00), (0.00, 0.15), (0.20, 0.21)]
+p_all_arr = [(0.75, 0.00), (0.75, 0.10)]
 
 # t_final = Int(2e4) # 1e5
 # n_t = 5 # 6
@@ -35,9 +35,9 @@ t_mmt = Array{Int}(20:20:200).+50
 
 n_subdiv = "all"
 
-number_of_repetitions = 100
+number_of_repetitions = 400
 number_of_experiments = number_of_repetitions*length(L_arr)*length(p_all_arr)
-offset = 700
+offset = 0
 
 # Generate the arg files
 for exp_index in (1 + offset):(number_of_experiments + offset)
