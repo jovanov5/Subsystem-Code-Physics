@@ -66,6 +66,7 @@ function main(L::Integer, d::Integer, p_f::Float64, p_b::Float64, t_mmt::Array{I
         t_evol = t_mmt[t_index] - t_old;
         t_old = t_mmt[t_index];
         state = iterate_measurements_only_fast!(state, system, () -> toric_code(system, stab_distro), t_evol)
+        # get_e/f_reprentative is in HelperTools
         Boson_Boson[t_index, :, :] = general_zassenhausen_correlator(state, system, get_e_reprentative, boson_deformator);
         Fermion_Fermion[t_index, :, :] = general_zassenhausen_correlator(state, system, get_f_reprentative, fermion_deformator);
         TEE_array[t_index] = entanglement_entropy_topo(state, system)

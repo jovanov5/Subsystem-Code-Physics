@@ -226,8 +226,9 @@ function zassenhausen_state(charge_representative, deformator, probe_state, nbit
     return state
 end
 
+# this is the same as belo but with trivial reprentative
 function zassenhausen_alg(deformator, probe_state, nbits::Int)
-    """Given two sungroup of the Pauli group, given as invalid stabilisers generators, we return the dims we need.
+    """Given two sungroup of the Pauli group, given as invalid stabilisers generators, we return the dimension of the intersection and the direct sum (span of the union of generators) 
     """
     state = zassenhausen_state(deformator, probe_state, nbits)
     N = nbits
@@ -236,6 +237,9 @@ function zassenhausen_alg(deformator, probe_state, nbits::Int)
     return dim_intersection, dim_sum
 end
 
+# charge_representative is a QuantumClifford PauliOperator https://qc.quantumsavory.org/dev/stab-algebra-manual/#Pauli-Operators
+# deformator and probe_state are lists of PauliOperator
+# note that deformator is not necessarily a list of commuting operators, since we include _all_ logical X and Z operators into the group as well
 function zassenhausen_alg(charge_representative, deformator, probe_state, nbits::Int)
     """Given two sungroup of the Pauli group, given as invalid stabilisers generators, we return the dims we need.
     """
