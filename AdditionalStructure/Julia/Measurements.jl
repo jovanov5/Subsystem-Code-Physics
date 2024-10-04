@@ -155,8 +155,10 @@ function general_zassenhausen_correlator(state::MixedDestabilizer, system, rep_f
             if r_x == 0 && r_y == 0
                 corr_function[r_x+1, r_y+1] = 1
             else
+                # rep_function is an input
                 rep = rep_funtion((r_x, r_y), system)
                 # size_of_bff = 0
+                # zassenhausen_alg also in HelperTools.jl
                 dim_source, _ = zassenhausen_alg(rep, deformator, stabilizerview(state), nbits)
                 dim_norm, _ = zassenhausen_alg(deformator, stabilizerview(state), nbits)
                 corr_function[r_x+1, r_y+1] = Int(round(dim_source - dim_norm))
