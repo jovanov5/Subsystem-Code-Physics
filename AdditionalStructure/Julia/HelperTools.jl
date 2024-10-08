@@ -187,9 +187,18 @@ function zassenhausen_map_f(g::PauliOperator)
     return g ⊗ g ⊗ g ⊗ g
 end
 
+function zassenhausen_map_f_fast(g::PauliOperator)
+    return g ⊗ g
+end
+
 function zassenhausen_map_h(g::PauliOperator)
     e = g * g # this is the identity operator, cool trick 
     return g ⊗ g ⊗ e ⊗ e
+end
+
+function zassenhausen_map_h_fast(g::PauliOperator)
+    e = g * g # this is the identity operator, cool trick 
+    return g ⊗ e
 end
 
 function zassenhausen_state(deformator, probe_state, nbits::Int)
@@ -203,6 +212,22 @@ function zassenhausen_state(deformator, probe_state, nbits::Int)
 
     for g in probe_state
         project!(state, zassenhausen_map_h(g), keep_result= false)
+    end
+
+    return state
+end
+
+function zassenhausen_state_fast(deformator, probe_state, nbits::Int)
+    """Given two sungroup of the Pauli group, given as invalid stabilisers, we return the "Zassenhauser" state.
+    """
+    state = maximally_mixed_state(2*nbits)
+
+    for g in deformator
+        project!(state, zassenhausen_map_f_fast(g), keep_result= false)
+    end
+
+    for g in probe_state
+        project!(state, zassenhausen_map_h_fast(g), keep_result= false)
     end
 
     return state
@@ -226,6 +251,24 @@ function zassenhausen_state(charge_representative, deformator, probe_state, nbit
     return state
 end
 
+function zassenhausen_state_fast(charge_representative, deformator, probe_state, nbits::Int)
+    """Given two sungroup of the Pauli group, given as invalid stabilisers, we return the "Zassenhauser" state.
+    """
+    state = maximally_mixed_state(2*nbits)
+    
+    for g in deformator
+        project!(state, zassenhausen_map_f_fast(g), keep_result= false)
+    end
+
+    project!(state, zassenhausen_map_f_fast(charge_representative), keep_result= false)
+
+    for g in probe_state
+        project!(state, zassenhausen_map_h_fast(g), keep_result= false)
+    end
+
+    return state
+end
+
 # this is the same as belo but with trivial reprentative
 function zassenhausen_alg(deformator, probe_state, nbits::Int)
     """Given two sungroup of the Pauli group, given as invalid stabilisers generators, we return the dimension of the intersection and the direct sum (span of the union of generators) 
@@ -234,6 +277,16 @@ function zassenhausen_alg(deformator, probe_state, nbits::Int)
     N = nbits
     dim_intersection = 2*N - entanglement_entropy(state, (2*N+1):4N, Val(:clip))
     dim_sum = 4*N - dim_intersection - entanglement_entropy(state, 1:4N, Val(:clip))
+    return dim_intersection, dim_sum
+end
+
+function zassenhausen_alg_fast(deformator, probe_state, nbits::Int)
+    """Given two sungroup of the Pauli group, given as invalid stabilisers generators, we return the dimension of the intersection and the direct sum (span of the union of generators) 
+    """
+    state = zassenhausen_state_fast(deformator, probe_state, nbits)
+    N = nbits
+    dim_intersection = N - entanglement_entropy(state, (N+1):2N, Val(:clip))
+    dim_sum = 2*N - dim_intersection - entanglement_entropy(state, 1:2N, Val(:clip))
     return dim_intersection, dim_sum
 end
 
@@ -247,6 +300,16 @@ function zassenhausen_alg(charge_representative, deformator, probe_state, nbits:
     N = nbits
     dim_intersection = 2*N - entanglement_entropy(state, (2*N+1):4N, Val(:clip))
     dim_sum = 4*N - dim_intersection - entanglement_entropy(state, 1:4N, Val(:clip))
+    return dim_intersection, dim_sum
+end
+
+function zassenhausen_alg_fast(charge_representative, deformator, probe_state, nbits::Int)
+    """Given two sungroup of the Pauli group, given as invalid stabilisers generators, we return the dims we need.
+    """
+    state = zassenhausen_state_fast(charge_representative, deformator, probe_state, nbits)
+    N = nbits
+    dim_intersection = N - entanglement_entropy(state, (N+1):2N, Val(:clip))
+    dim_sum = 2*N - dim_intersection - entanglement_entropy(state, 1:2N, Val(:clip))
     return dim_intersection, dim_sum
 end
 
